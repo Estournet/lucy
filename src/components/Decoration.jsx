@@ -13,7 +13,7 @@ const Decoration = props => (
         <AppBar position="static">
           <Toolbar variant="dense">
             <Typography variant="title" color="inherit">
-              Facebook stats
+              Lucy – Messenger statistics
             </Typography>
           </Toolbar>
         </AppBar>

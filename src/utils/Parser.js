@@ -1,66 +1,68 @@
 import jsonFile from '../input/message.json';
-import { convertUnicode } from './Formats';
+import { convertUnicode, formatMap } from './Formats';
+import format from 'date-fns/format';
 
-const getMessageCountPerUser = (message, map) => {
-  if (message['sender_name']) {
-    if (map.get(message['sender_name']) === undefined) {
-      map.set(decodeURIComponent(message['sender_name']), 1);
+const setMessageCountPerUser = (message, map) => {
+  const senderName = convertUnicode(message.sender_name);
+
+  if (map.get(senderName) === undefined) {
+    map.set(senderName, 1);
+  } else {
+    map.set(senderName, map.get(senderName) + 1);
+  }
+};
+
+const setCharCountPerUser = (message, map) => {
+  const senderName = convertUnicode(message.sender_name);
+  const content = message.content;
+
+  if (content) {
+    const contentLength = content.length;
+    if (map.get(senderName) === undefined) {
+      map.set(senderName, contentLength);
     } else {
-      if (message['sender_name'] === 'Jeremy Saraudy') {
-        console.log(message);
-      }
-      map.set(
-        decodeURIComponent(message['sender_name']),
-        map.get(message['sender_name']) + 1
-      );
+      map.set(senderName, map.get(senderName) + contentLength);
     }
   }
 };
 
-const getCharCountPerUser = (message, map) => {
-  if (message['sender_name'] && message['content']) {
-    if (map.get(message['sender_name']) === undefined) {
-      map.set(
-        decodeURIComponent(message['sender_name']),
-        message['content'].length
-      );
-    } else {
-      map.set(
-        decodeURIComponent(message['sender_name']),
-        map.get(message['sender_name']) + message['content'].length
-      );
-    }
+const setTotalChars = (message, data) => {
+  const content = message.content;
+
+  if (content) {
+    data.totalChars += content.length;
   }
 };
 
-const getTotalChars = (message, data) => {
-  if (message['sender_name'] && message['content']) {
-    data.totalChars += message['content'].length;
+const setMessagesPerMonth = (message, map) => {
+  const date = new Date(message.timestamp_ms);
+  const key = format(date, 'MMM YY');
+  if (map.get(key) === undefined) {
+    map.set(key, 0);
+  } else {
+    map.set(key, map.get(key) + 1);
   }
 };
 
-const formatMap = map => {
-  map.keys = Array.from(map.keys());
-  map.values = Array.from(map.values());
-};
-
-const getTotalMessages = () => jsonFile.messages.length;
+const setTotalMessages = () => jsonFile.messages.length;
 
 const parsedData = () => {
-  const j = '{"name": "St\u00c3\u00a9phanie Collrd"}';
-  console.log(JSON.parse(j));
   const data = {};
   data.title = convertUnicode(jsonFile.title);
   data.messageCountPerUser = new Map();
   data.charCountPerUser = new Map();
   data.totalChars = 0;
-  data.totalMessages = getTotalMessages();
+  data.totalMessages = setTotalMessages();
+  data.messagesPerMonth = new Map();
+
   jsonFile.messages.forEach(message => {
-    getMessageCountPerUser(message, data.messageCountPerUser);
-    getCharCountPerUser(message, data.charCountPerUser);
-    getTotalChars(message, data);
+    setMessageCountPerUser(message, data.messageCountPerUser);
+    setCharCountPerUser(message, data.charCountPerUser);
+    setTotalChars(message, data);
+    setMessagesPerMonth(message, data.messagesPerMonth);
   });
 
+  formatMap(data.messagesPerMonth);
   formatMap(data.messageCountPerUser);
   formatMap(data.charCountPerUser);
   return data;

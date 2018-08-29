@@ -21,10 +21,25 @@ const Homepage = props => (
         <Stats />
       </Grid>
       <Grid item xs={12}>
-        <Chart data={ParsedData.messageCountPerUser} />
+        <Chart
+          data={ParsedData.messageCountPerUser}
+          label="Nombre de message"
+          defaultChart="bar"
+        />
       </Grid>
       <Grid item xs={12}>
-        <Chart data={ParsedData.charCountPerUser} />
+        <Chart
+          data={ParsedData.charCountPerUser}
+          label="Nombre de caractères"
+          defaultChart="bar"
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Chart
+          data={ParsedData.messagesPerMonth}
+          label="Nombre de message"
+          defaultChart="line"
+        />
       </Grid>
     </Grid>
   </React.Fragment>

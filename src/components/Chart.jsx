@@ -1,26 +1,36 @@
 import React from 'react';
-import { Bar, Doughnut, HorizontalBar, Polar, Radar } from 'react-chartjs-2';
+import {
+  Bar,
+  Doughnut,
+  HorizontalBar,
+  Line,
+  Polar,
+  Radar
+} from 'react-chartjs-2';
 import FormControl from '@material-ui/core/FormControl/FormControl';
 import InputLabel from '@material-ui/core/InputLabel/InputLabel';
 import Select from '@material-ui/core/Select/Select';
 import MenuItem from '@material-ui/core/MenuItem/MenuItem';
 import Grid from '@material-ui/core/Grid/Grid';
 import withStyles from '@material-ui/core/styles/withStyles';
+import withTheme from '@material-ui/core/styles/withTheme';
 import Paper from '@material-ui/core/Paper/Paper';
+import PropTypes from 'prop-types';
 
 class Chart extends React.PureComponent {
   state = {
-    chartType: 'bar'
+    chartType: this.props.defaultChart
   };
 
   getFormattedData = data => ({
     labels: data.keys,
     datasets: [
       {
-        label: 'Nombre total de messages',
-        backgroundColor: 'purple',
+        label: this.props.label,
+        backgroundColor: this.props.theme.palette.secondary.main,
         // hoverBackgroundColor: 'rgba(255,99,132,0.4)',
         // hoverBorderColor: 'rgba(255,99,132,1)',
+        fill: false,
         data: data.values
       }
     ]
@@ -35,6 +45,8 @@ class Chart extends React.PureComponent {
         return <Bar data={this.getFormattedData(this.props.data)} />;
       case 'horizontalBar':
         return <HorizontalBar data={this.getFormattedData(this.props.data)} />;
+      case 'line':
+        return <Line data={this.getFormattedData(this.props.data)} />;
       case 'donut':
         return <Doughnut data={this.getFormattedData(this.props.data)} />;
       case 'polar':
@@ -47,6 +59,7 @@ class Chart extends React.PureComponent {
   };
 
   render() {
+    console.log(this.props.theme);
     return (
       <Grid container spacing={8}>
         <Grid item xs={12}>
@@ -58,6 +71,7 @@ class Chart extends React.PureComponent {
             >
               <MenuItem value="bar">Histogramme</MenuItem>
               <MenuItem value="horizontalBar">Histogramme horizontal</MenuItem>
+              <MenuItem value="line">Courbe</MenuItem>
               <MenuItem value="donut">Donut</MenuItem>
               <MenuItem value="polar">Aire polaire</MenuItem>
               <MenuItem value="radar">Radar</MenuItem>
@@ -78,4 +92,22 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(Chart);
+Chart.defaultProps = {
+  defaultChart: 'horizontalBar',
+  label: 'bar'
+};
+
+Chart.propTypes = {
+  data: PropTypes.object.isRequired,
+  defaultChart: PropTypes.oneOf([
+    'bar',
+    'horizontalBar',
+    'line',
+    'donut',
+    'polar',
+    'radar'
+  ]),
+  label: PropTypes.string
+};
+
+export default withTheme()(withStyles(styles)(Chart));
