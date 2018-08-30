@@ -11,7 +11,7 @@ const Homepage = props => (
     <Typography
       variant="display1"
       align="center"
-      color="primary"
+      color="textPrimary"
       className={props.classes.title}
     >
       {ParsedData.title}

@@ -6,15 +6,16 @@
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
     "chart.js": "^2.7.2",
+    "date-fns": "^2.0.0-alpha.16",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.2",
     "prettier": "^1.14.2",
+    "prop-types": "latest",
     "react": "^16.4.2",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.4.2",
-    "react-scripts": "^1.1.5",
-    "date-fns": "^2.0.0-alpha.16",
-    "prop-types": "latest"
+    "react-facebook-login": "^4.0.1",
+    "react-scripts": "^1.1.5"
   },
   "scripts": {
     "precommit": "lint-staged",

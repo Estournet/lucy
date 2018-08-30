@@ -94,7 +94,7 @@ const styles = theme => ({
 
 Chart.defaultProps = {
   defaultChart: 'horizontalBar',
-  label: 'bar'
+  label: ' '
 };
 
 Chart.propTypes = {

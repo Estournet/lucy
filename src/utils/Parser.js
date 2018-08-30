@@ -1,4 +1,4 @@
-import jsonFile from '../input/message.json';
+import jsonFile from '../input/test.json';
 import { convertUnicode, formatMap } from './Formats';
 import format from 'date-fns/format';
 
