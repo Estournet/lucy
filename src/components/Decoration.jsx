@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, withStyles } from '@material-ui/core/';
 import Footer from './Footer.jsx';
-import Homepage from '../pages/Homepage';
+import Content from '../components/AsyncContent';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +20,7 @@ const Decoration = props => (
       </Grid>
       <Grid item xs={12}>
         <main className={props.classes.content}>
-          <Homepage />
+          <Content />
         </main>
       </Grid>
       <Grid item xs={12}>

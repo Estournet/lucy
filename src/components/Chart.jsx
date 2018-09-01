@@ -16,6 +16,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import withTheme from '@material-ui/core/styles/withTheme';
 import Paper from '@material-ui/core/Paper/Paper';
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography/Typography';
 
 class Chart extends React.PureComponent {
   state = {
@@ -59,9 +60,13 @@ class Chart extends React.PureComponent {
   };
 
   render() {
-    console.log(this.props.theme);
     return (
       <Grid container spacing={8}>
+        <Grid item xs={12}>
+          <Typography variant="title" gutterBottom>
+            {this.props.title}
+          </Typography>
+        </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel>Type de graphique</InputLabel>
@@ -94,7 +99,8 @@ const styles = theme => ({
 
 Chart.defaultProps = {
   defaultChart: 'horizontalBar',
-  label: ' '
+  label: '',
+  title: ''
 };
 
 Chart.propTypes = {
@@ -107,7 +113,8 @@ Chart.propTypes = {
     'polar',
     'radar'
   ]),
-  label: PropTypes.string
+  label: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default withTheme()(withStyles(styles)(Chart));
