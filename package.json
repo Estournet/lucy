@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.0.1",
+    "@material-ui/core": "^3.1.0",
     "@material-ui/icons": "^3.0.1",
     "chart.js": "^2.7.2",
     "date-fns": "^2.0.0-alpha.16",
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.2",
-    "prettier": "^1.14.2",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
     "prop-types": "^15.6.2",
-    "react": "^16.4.2",
+    "react": "^16.5.2",
     "react-chartjs-2": "^2.7.4",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.5.2",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^1.1.5"
   },
@@ -25,7 +25,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "eslint": "^5.5.0"
+    "eslint": "^5.6.0"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [

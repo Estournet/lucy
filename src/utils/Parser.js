@@ -1,100 +1,112 @@
-import jsonFile from '../input/message.json';
 import { convertUnicode, formatMap } from './Formats';
 import format from 'date-fns/format';
+import conversations from '../conversations.json';
 
-const setMessageCountPerUser = (message, map) => {
-  const senderName = convertUnicode(message.sender_name);
+const conversationsData = {};
 
-  if (map.get(senderName) === undefined) {
-    map.set(senderName, 1);
-  } else {
-    map.set(senderName, map.get(senderName) + 1);
-  }
-};
+class Parser {
+  static setMessageCountPerUser = (message, map) => {
+    const senderName = convertUnicode(message.sender_name);
 
-const setCharCountPerUser = (message, map) => {
-  const senderName = convertUnicode(message.sender_name);
-  const content = message.content;
-
-  if (content) {
-    const contentLength = content.length;
     if (map.get(senderName) === undefined) {
-      map.set(senderName, contentLength);
+      map.set(senderName, 1);
     } else {
-      map.set(senderName, map.get(senderName) + contentLength);
+      map.set(senderName, map.get(senderName) + 1);
     }
-  }
-};
+  };
 
-const setTotalChars = (message, data) => {
-  const content = message.content;
+  static setCharCountPerUser = (message, map) => {
+    const senderName = convertUnicode(message.sender_name);
+    const content = message.content;
 
-  if (content) {
-    data.totalChars += content.length;
-  }
-};
+    if (content) {
+      const contentLength = content.length;
+      if (map.get(senderName) === undefined) {
+        map.set(senderName, contentLength);
+      } else {
+        map.set(senderName, map.get(senderName) + contentLength);
+      }
+    }
+  };
 
-const setMessagesPerMonth = (message, map) => {
-  const date = new Date(message.timestamp_ms);
-  const key = format(date, 'MMM YY');
-  if (map.get(key) === undefined) {
-    map.set(key, 0);
-  } else {
-    map.set(key, map.get(key) + 1);
-  }
-};
+  static setTotalChars = (message, data) => {
+    const content = message.content;
 
-const setUserData = (message, users) => {
-  const senderName = convertUnicode(message.sender_name);
-  let index = users.findIndex(element => senderName === element.userName);
+    if (content) {
+      data.totalChars += content.length;
+    }
+  };
 
-  if (users[index] === undefined) {
-    console.log(message);
-    console.log(users);
-    users.push(defaultUser(senderName));
-    index = users.findIndex(element => senderName === element.userName);
-  }
-  setMessagesPerMonth(message, users[index].messagesPerMonth);
-  setTotalChars(message, users[index]);
-  users[index].totalMessages += 1;
-};
+  static setMessagesPerMonth = (message, map) => {
+    const date = new Date(message.timestamp_ms);
+    const key = format(date, 'MMM YY');
+    if (map.get(key) === undefined) {
+      map.set(key, 0);
+    } else {
+      map.set(key, map.get(key) + 1);
+    }
+  };
 
-const setTotalMessages = () => jsonFile.messages.length;
+  static setUserData = (message, users) => {
+    const senderName = convertUnicode(message.sender_name);
+    let index = users.findIndex(element => senderName === element.userName);
 
-const defaultUser = name => ({
-  userName: convertUnicode(name),
-  messagesPerMonth: new Map(),
-  totalMessages: 0,
-  totalChars: 0
-});
+    if (users[index] === undefined) {
+      users.push(Parser.defaultUser(senderName));
+      index = users.findIndex(element => senderName === element.userName);
+    }
+    Parser.setMessagesPerMonth(message, users[index].messagesPerMonth);
+    Parser.setTotalChars(message, users[index]);
+    users[index].totalMessages += 1;
+  };
 
-const parsedData = () => {
-  const data = {};
-  data.groupName = convertUnicode(jsonFile.title);
-  data.messageCountPerUser = new Map();
-  data.charCountPerUser = new Map();
-  data.totalChars = 0;
-  data.totalMessages = setTotalMessages();
-  data.messagesPerMonth = new Map();
-  data.users = jsonFile.participants.map(participant =>
-    defaultUser(participant.name)
-  );
-
-  jsonFile.messages.forEach(message => {
-    setMessageCountPerUser(message, data.messageCountPerUser);
-    setCharCountPerUser(message, data.charCountPerUser);
-    setTotalChars(message, data);
-    setMessagesPerMonth(message, data.messagesPerMonth);
-    setUserData(message, data.users);
+  static defaultUser = name => ({
+    userName: convertUnicode(name),
+    messagesPerMonth: new Map(),
+    totalMessages: 0,
+    totalChars: 0
   });
 
-  console.log(data);
+  static parse(route) {
+    if (!conversationsData[route]) {
+      console.log('Parsing ' + route);
+      const conversationData = {};
+      const { filePath } = conversations[route];
+      const jsonFile = require(`../input/${filePath}`);
+      conversationData.conversationName = convertUnicode(jsonFile.title);
+      conversationData.conversationID = convertUnicode(jsonFile.thread_path);
+      conversationData.messageCountPerUser = new Map();
+      conversationData.charCountPerUser = new Map();
+      conversationData.totalChars = 0;
+      conversationData.totalMessages = jsonFile.messages.length;
+      conversationData.messagesPerMonth = new Map();
+      conversationData.users = jsonFile.participants.map(participant =>
+        Parser.defaultUser(participant.name)
+      );
 
-  data.users.forEach(user => formatMap(user.messagesPerMonth));
-  formatMap(data.messagesPerMonth);
-  formatMap(data.messageCountPerUser);
-  formatMap(data.charCountPerUser);
-  return data;
-};
+      jsonFile.messages.forEach(message => {
+        Parser.setMessageCountPerUser(
+          message,
+          conversationData.messageCountPerUser
+        );
+        Parser.setCharCountPerUser(message, conversationData.charCountPerUser);
+        Parser.setTotalChars(message, conversationData);
+        Parser.setMessagesPerMonth(message, conversationData.messagesPerMonth);
+        Parser.setUserData(message, conversationData.users);
+      });
 
-export default parsedData();
+      conversationData.users.forEach(user => formatMap(user.messagesPerMonth));
+      formatMap(conversationData.messagesPerMonth);
+      formatMap(conversationData.messageCountPerUser);
+      formatMap(conversationData.charCountPerUser);
+      conversationsData[route] = conversationData;
+    }
+  }
+
+  static getConversationData(route) {
+    if (!conversationsData[route]) Parser.parse(route);
+    return conversationsData[route];
+  }
+}
+
+export default Parser;

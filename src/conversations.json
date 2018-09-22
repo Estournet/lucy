@@ -1,0 +1,12 @@
+{
+  "LeClubPetanque_ccc590160a": {
+    "filePath": "message.json",
+    "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
+    "conversationID": "LeClubPetanque_ccc590160a"
+  },
+  "LeClubPetanque_ccc590160aTest": {
+    "filePath": "test.json",
+    "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090 (Test)",
+    "conversationID": "LeClubPetanque_ccc590160aTest"
+  }
+}

@@ -1,22 +1,23 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import UserStats from '../components/UserStats';
-import ParsedData from '../utils/Parser';
+import Parser from '../utils/Parser';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Chart from '../components/Chart';
 import Paper from '@material-ui/core/Paper/Paper';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Slide from '@material-ui/core/Slide/Slide';
 
 const UserPage = props => {
-  const user = ParsedData.users.find(
-    element => element.userName === props.match.params.userName
+  const { conversationID, userName } = props.match.params;
+  const conversationData = Parser.getConversationData(conversationID);
+  const user = conversationData.users.find(
+    element => element.userName === userName
   );
-  console.log(user);
   return (
     <Slide in direction="up" mountOnEnter unmountOnExit>
       <div>
@@ -27,7 +28,7 @@ const UserPage = props => {
                 <IconButton
                   className={props.classes.menuButton}
                   component={Link}
-                  to="/"
+                  to={encodeURI(`/${conversationID}`)}
                 >
                   <ArrowBackIcon />
                 </IconButton>
@@ -41,7 +42,7 @@ const UserPage = props => {
                       variant="subheading"
                       color="textSecondary"
                     >
-                      {ParsedData.groupName}
+                      {conversationData.conversationName}
                     </Typography>
                   </div>
                 </div>
@@ -92,4 +93,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(UserPage);
+export default withStyles(styles)(withRouter(UserPage));

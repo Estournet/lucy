@@ -2,8 +2,11 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import asyncComponent from './AsyncComponent.jsx';
 
-const AsyncHomePage = asyncComponent(() => import('../pages/Homepage.jsx'));
+// const AsyncHomePage = asyncComponent(() => import('../pages/Homepage.jsx'));
 const AsyncUserPage = asyncComponent(() => import('../pages/UserPage.jsx'));
+const AsyncConversationPage = asyncComponent(() =>
+  import('../pages/ConversationPage.jsx')
+);
 
 // const AsyncAdministrationPage = asyncComponent(() => import('components/pages/AdministrationPage.jsx'));
 const AsyncNotFoundPage = asyncComponent(() =>
@@ -20,14 +23,19 @@ const AsyncNotFoundPage = asyncComponent(() =>
  */
 const AsyncContent = () => (
   <Switch>
+    {/*<Route*/}
+    {/*exact*/}
+    {/*path="/"*/}
+    {/*render={newProps => <AsyncHomePage {...newProps} />}*/}
+    {/*/>*/}
     <Route
       exact
-      path="/"
-      render={newProps => <AsyncHomePage {...newProps} />}
+      path="/:conversationID"
+      render={newProps => <AsyncConversationPage {...newProps} />}
     />
     <Route
       exact
-      path="/user/:userName"
+      path="/:conversationID/:userName"
       render={newProps => <AsyncUserPage {...newProps} />}
     />
 

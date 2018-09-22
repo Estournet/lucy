@@ -25,7 +25,7 @@ const Members = props => (
                 className={props.classes.icon}
                 size="small"
                 component={Link}
-                to={encodeURI(`/user/${userName}`)}
+                to={encodeURI(`/${props.conversationID}/${userName}`)}
               >
                 <ChevronRightIcon />
               </IconButton>
@@ -60,6 +60,7 @@ Members.defaultProps = {
 };
 
 Members.propTypes = {
+  conversationID: PropTypes.string.isRequired,
   usersName: PropTypes.arrayOf(PropTypes.string)
 };
 
