@@ -8,7 +8,30 @@ class Footer extends React.PureComponent {
       <footer className={classes.footer}>
         <Divider className={classes.divider} />
         <Typography color="textSecondary" align="center">
-          Tous droits réservés
+          Créé par Vincent M.
+        </Typography>
+        <Typography variant="caption" color="textSecondary" align="center">
+          Site sous license
+          <a
+            href="https://www.gnu.org/licenses/gpl-3.0.fr.html"
+            rel="noopener noreferrer"
+            target="_blank"
+            className={classes.link}
+          >
+            GNU GPL v3
+          </a>
+          .
+        </Typography>
+        <Typography variant="caption" color="textSecondary" align="center">
+          <a
+            href="https://github.com/Estournet/lucy"
+            rel="noopener noreferrer"
+            target="_blank"
+            className={classes.link}
+          >
+            Voir le projet sur GitHub
+          </a>
+          .
         </Typography>
       </footer>
     );

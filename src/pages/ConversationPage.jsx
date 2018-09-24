@@ -7,7 +7,11 @@ import Grid from '@material-ui/core/Grid/Grid';
 import Chart from '../components/Chart';
 import Members from '../components/Members';
 import Slide from '@material-ui/core/Slide/Slide';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import Paper from '@material-ui/core/Paper/Paper';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 class ConversationPage extends React.PureComponent {
   constructor(props) {
@@ -23,15 +27,31 @@ class ConversationPage extends React.PureComponent {
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
         <div>
-          <Typography
-            variant="display1"
-            align="center"
-            color="textPrimary"
-            className={props.classes.title}
-          >
-            {conversationData.conversationName}
-          </Typography>
           <Grid container spacing={32}>
+            <Grid item xs={12}>
+              <Paper className={props.classes.paper}>
+                <Toolbar>
+                  <div className={props.classes.flexContainer}>
+                    <IconButton
+                      className={props.classes.menuButton}
+                      component={Link}
+                      to="/"
+                    >
+                      <ArrowBackIcon />
+                    </IconButton>
+                    <div className={props.classes.flex}>
+                      <Typography
+                        variant="headline"
+                        align="left"
+                        color="textPrimary"
+                      >
+                        {conversationData.conversationName}
+                      </Typography>
+                    </div>
+                  </div>
+                </Toolbar>
+              </Paper>
+            </Grid>
             <Grid item xs={12}>
               <Members
                 usersName={conversationData.users.map(user => user.userName)}
@@ -72,64 +92,22 @@ class ConversationPage extends React.PureComponent {
   }
 }
 
-// const ConversationPage = props => {
-//   const parser = Parser.getConversationData(props.match.params.conversationID);
-//   // console.log(props);
-//   // console.log(parser);
-//   // p.parsedData()
-//   // console.log(Parser.parsedData("Le club pétanque MONARD"));
-//   return (
-//     <Slide in direction="up" mountOnEnter unmountOnExit>
-//       <div>
-//         <Typography
-//           variant="display1"
-//           align="center"
-//           color="textPrimary"
-//           className={props.classes.title}
-//         >
-//           {parser.conversationID}
-//         </Typography>
-//         <Grid container spacing={32}>
-//           <Grid item xs={12}>
-//             <Members usersName={parser.users.map(user => user.userName)}
-//                      conversationID={parser.conversationID}/>
-//           </Grid>
-//           <Grid item xs={12}>
-//             <Stats/>
-//           </Grid>
-//           <Grid item xs={12}>
-//             <Chart
-//               data={parser.messageCountPerUser}
-//               label="Nombre de messages"
-//               defaultChart="bar"
-//               title="Nombre de messages total"
-//             />
-//           </Grid>
-//           <Grid item xs={12}>
-//             <Chart
-//               data={parser.charCountPerUser}
-//               label="Nombre de caractères"
-//               defaultChart="bar"
-//               title="Nombre de caractères total"
-//             />
-//           </Grid>
-//           <Grid item xs={12}>
-//             <Chart
-//               data={parser.messagesPerMonth}
-//               label="Nombre de messages"
-//               defaultChart="line"
-//               title="Nombre de messages au cours du temps"
-//             />
-//           </Grid>
-//         </Grid>
-//       </div>
-//     </Slide>
-//   );
-// };
-
 const styles = theme => ({
-  title: {
-    paddingBottom: theme.spacing.unit * 4
+  menuButton: {
+    marginRight: theme.spacing.unit
+  },
+  paper: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit
+  },
+  flexContainer: {
+    display: 'flex',
+    flexWrap: 'noWrap',
+    flexGrow: 1,
+    alignItems: 'center'
+  },
+  flex: {
+    flexGrow: 1
   }
 });
 

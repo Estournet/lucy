@@ -11,10 +11,12 @@ import Paper from '@material-ui/core/Paper/Paper';
 const Members = props => (
   <Grid container spacing={16}>
     <Grid item xs={12}>
-      <Typography variant="title">Membres de la conversation</Typography>
+      <Typography variant="title">
+        Membres de la conversation ({props.usersName.length})
+      </Typography>
     </Grid>
     {props.usersName.sort().map(userName => (
-      <Grid item xs={4} key={userName}>
+      <Grid item xs={6} sm={4} md={3} lg={2} xl={1} key={userName}>
         <Paper className={props.classes.paper}>
           <div className={props.classes.flexContainer}>
             <div className={props.classes.flex}>

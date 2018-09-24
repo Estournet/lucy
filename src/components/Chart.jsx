@@ -23,16 +23,48 @@ class Chart extends React.PureComponent {
     chartType: this.props.defaultChart
   };
 
-  getFormattedData = data => ({
-    labels: data.keys,
+  getColors = size => {
+    const availableColors = [
+      'rgb(194, 24, 91)',
+      'rgb(186, 104, 200)',
+      'rgb(0, 151, 167)',
+      'rgb(0, 200, 83)',
+      'rgb(255, 234, 0)',
+      'rgb(255, 183, 77)'
+    ];
+    const chartColors = [];
+    for (let i = 0; i < size; i++) {
+      chartColors.push(availableColors[i % availableColors.length]);
+    }
+    console.log(this.props.data);
+
+    return chartColors;
+  };
+
+  getFormattedDataWithRainbowColors = () => ({
+    labels: this.props.data.keys,
+    datasets: [
+      {
+        label: this.props.label,
+        backgroundColor: this.getColors(this.props.data.size),
+        fill: false,
+        data: this.props.data.values
+      }
+    ]
+  });
+
+  getFormattedDataWithOneColor = () => ({
+    labels: this.props.data.keys,
     datasets: [
       {
         label: this.props.label,
         backgroundColor: this.props.theme.palette.secondary.main,
-        // hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-        // hoverBorderColor: 'rgba(255,99,132,1)',
+        borderColor: this.props.theme.palette.secondary.main,
+        pointBackgroundColor: this.props.theme.palette.secondary.main,
+        pointBorderColor: this.props.theme.palette.secondary.main,
+        pointBorderWidth: 3,
         fill: false,
-        data: data.values
+        data: this.props.data.values
       }
     ]
   });
@@ -43,17 +75,17 @@ class Chart extends React.PureComponent {
   getChart = () => {
     switch (this.state.chartType) {
       case 'bar':
-        return <Bar data={this.getFormattedData(this.props.data)} />;
+        return <Bar data={this.getFormattedDataWithRainbowColors} />;
       case 'horizontalBar':
-        return <HorizontalBar data={this.getFormattedData(this.props.data)} />;
+        return <HorizontalBar data={this.getFormattedDataWithRainbowColors} />;
       case 'line':
-        return <Line data={this.getFormattedData(this.props.data)} />;
+        return <Line data={this.getFormattedDataWithOneColor} />;
       case 'donut':
-        return <Doughnut data={this.getFormattedData(this.props.data)} />;
+        return <Doughnut data={this.getFormattedDataWithRainbowColors} />;
       case 'polar':
-        return <Polar data={this.getFormattedData(this.props.data)} />;
+        return <Polar data={this.getFormattedDataWithRainbowColors} />;
       case 'radar':
-        return <Radar data={this.getFormattedData(this.props.data)} />;
+        return <Radar data={this.getFormattedDataWithOneColor} />;
       default:
         return 'default';
     }

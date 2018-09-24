@@ -12,24 +12,34 @@ import { convertUnicode } from '../utils/Formats';
 
 const Homepage = props => (
   <Slide in direction="up" mountOnEnter unmountOnExit>
-    <div>
-      <Typography
-        variant="display2"
-        align="center"
-        color="textPrimary"
-        className={props.classes.title}
-      >
-        Lucy – Messenger statistics
-      </Typography>
+    <div className={props.classes.content}>
+      <div className={props.classes.title}>
+        <Typography
+          variant="display2"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          Lucy
+        </Typography>
+        <Typography variant="headline" align="center" color="textPrimary">
+          Messenger statistics
+        </Typography>
+      </div>
       <Grid container spacing={16}>
         {Object.keys(conversations)
           .sort()
           .map(conversationID => (
-            <Grid item xs={4} key={conversationID}>
+            <Grid item xs={12} sm={6} lg={3} xl={1} key={conversationID}>
               <Paper className={props.classes.paper}>
                 <div className={props.classes.flexContainer}>
                   <div className={props.classes.flex}>
-                    <Typography variant="body2">
+                    <Typography
+                      variant="body2"
+                      component={Link}
+                      to={encodeURI(`/${conversationID}`)}
+                      className={props.classes.textDecorationNone}
+                    >
                       {convertUnicode(
                         conversations[conversationID].displayName
                       )}
@@ -72,6 +82,14 @@ const styles = theme => ({
   },
   icon: {
     marginLeft: theme.spacing.unit
+  },
+  content: {
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    minHeight: '100vh'
+  },
+  textDecorationNone: {
+    textDecoration: 'none'
   }
 });
 

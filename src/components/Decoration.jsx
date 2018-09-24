@@ -26,6 +26,7 @@ const Decoration = props => (
               variant="title"
               color="inherit"
               component={Link}
+              noWrap
               to="/"
               className={props.classes.title}
             >
