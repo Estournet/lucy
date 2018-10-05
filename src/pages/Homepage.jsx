@@ -3,12 +3,10 @@ import { Typography } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Slide from '@material-ui/core/Slide/Slide';
-import Paper from '@material-ui/core/Paper/Paper';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import { Link } from 'react-router-dom';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import conversations from '../conversations';
-import { convertUnicode } from '../utils/Formats';
+import UploadConversation from '../components/UploadConversation.jsx';
+import EncryptedConversationCard from '../components/EncryptedConversationCard.jsx';
+import ConversationCard from '../components/ConversationCard.jsx';
 
 const Homepage = props => (
   <Slide in direction="up" mountOnEnter unmountOnExit>
@@ -26,39 +24,26 @@ const Homepage = props => (
           Messenger statistics
         </Typography>
       </div>
+      <UploadConversation />
       <Grid container spacing={16}>
         {Object.keys(conversations)
           .sort()
-          .map(conversationID => (
-            <Grid item xs={12} sm={6} lg={3} xl={1} key={conversationID}>
-              <Paper className={props.classes.paper}>
-                <div className={props.classes.flexContainer}>
-                  <div className={props.classes.flex}>
-                    <Typography
-                      variant="body2"
-                      component={Link}
-                      to={encodeURI(`/${conversationID}`)}
-                      className={props.classes.textDecorationNone}
-                    >
-                      {convertUnicode(
-                        conversations[conversationID].displayName
-                      )}
-                    </Typography>
-                  </div>
-                  <div>
-                    <IconButton
-                      className={props.classes.icon}
-                      size="small"
-                      component={Link}
-                      to={encodeURI(`/${conversationID}`)}
-                    >
-                      <ChevronRightIcon />
-                    </IconButton>
-                  </div>
-                </div>
-              </Paper>
-            </Grid>
-          ))}
+          .map(
+            conversationID =>
+              conversations[conversationID].encrypted ? (
+                <EncryptedConversationCard
+                  key={conversationID}
+                  conversationID={conversationID}
+                  displayName={conversations[conversationID].displayName}
+                />
+              ) : (
+                <ConversationCard
+                  key={conversationID}
+                  conversationID={conversationID}
+                  displayName={conversations[conversationID].displayName}
+                />
+              )
+          )}
       </Grid>
     </div>
   </Slide>
@@ -68,29 +53,14 @@ const styles = theme => ({
   title: {
     paddingBottom: theme.spacing.unit * 4
   },
-  flexContainer: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    flexGrow: 1,
-    alignItems: 'center'
-  },
-  flex: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing.unit
-  },
-  icon: {
-    marginLeft: theme.spacing.unit
-  },
   content: {
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
     minHeight: '100vh'
-  },
-  textDecorationNone: {
-    textDecoration: 'none'
   }
 });
 
+// As we import pages asynchroneously, the IDE thinks the component is unused.
+// See AsyncComponent.jsx and AsyncContent.jsx for more details
+// noinspection JSUnusedGlobalSymbols
 export default withStyles(styles)(Homepage);

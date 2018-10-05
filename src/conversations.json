@@ -1,6 +1,6 @@
 {
   "LeClubPetanque_ccc590160a": {
-    "filePath": "message.json",
+    "filePath": "ClubPetanque.json",
     "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
     "conversationID": "LeClubPetanque_ccc590160a"
   },
@@ -8,5 +8,21 @@
     "filePath": "test.json",
     "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090 (Test)",
     "conversationID": "LeClubPetanque_ccc590160aTest"
+  },
+  "test-AES-256-CBC.enc": {
+    "filePath": "test-AES-256-CBC.enc",
+    "displayName": "Conversation chiffr\u00c3\u00a9e",
+    "conversationID": "test-AES-256-CBC.enc",
+    "encrypted": true
+  },
+  "Leau_f8c128234b": {
+    "filePath": "Lagoon.json",
+    "displayName": "L'eau \u00f0\u009f\u0092\u00a7",
+    "conversationID": "Leau_f8c128234b"
+  },
+  "QuiVeutLaPeauDmonCrew21SQUAD_058807830b": {
+    "filePath": "21.json",
+    "displayName": "Qui Veut La Peau D'mon Crew ? 21SQUAD \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
+    "conversationID": "QuiVeutLaPeauDmonCrew21SQUAD_058807830b"
   }
 }

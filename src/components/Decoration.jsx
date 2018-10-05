@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import Favicon from '../assets/logo.png';
 import Avatar from '@material-ui/core/Avatar/Avatar';
+import ErrorCatcher from './ErrorCatcher';
 
 const Decoration = props => (
   <div className={props.classes.root}>
@@ -37,7 +38,9 @@ const Decoration = props => (
       </Grid>
       <Grid item xs={12}>
         <main className={props.classes.content}>
-          <AsyncContent />
+          <ErrorCatcher>
+            <AsyncContent />
+          </ErrorCatcher>
         </main>
       </Grid>
       <Grid item xs={12}>

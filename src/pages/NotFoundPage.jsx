@@ -43,4 +43,7 @@ NotFoundPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
+// As we import pages asynchroneously, the IDE thinks the component is unused.
+// See AsyncComponent.jsx and AsyncContent.jsx for more details
+// noinspection JSUnusedGlobalSymbols
 export default withStyles(styles)(NotFoundPage);

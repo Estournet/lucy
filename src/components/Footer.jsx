@@ -11,7 +11,7 @@ class Footer extends React.PureComponent {
           Créé par Vincent M.
         </Typography>
         <Typography variant="caption" color="textSecondary" align="center">
-          Site sous license
+          {'Site sous license '}
           <a
             href="https://www.gnu.org/licenses/gpl-3.0.fr.html"
             rel="noopener noreferrer"

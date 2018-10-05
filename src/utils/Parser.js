@@ -67,24 +67,21 @@ class Parser {
     totalChars: 0
   });
 
-  static parse(route) {
-    if (!conversationsData[route]) {
-      console.log('Parsing ' + route);
+  static parseJSON(json) {
+    if (json) {
       const conversationData = {};
-      const { filePath } = conversations[route];
-      const jsonFile = require(`../input/${filePath}`);
-      conversationData.conversationName = convertUnicode(jsonFile.title);
-      conversationData.conversationID = convertUnicode(jsonFile.thread_path);
+      conversationData.conversationName = convertUnicode(json.title);
+      conversationData.conversationID = convertUnicode(json.thread_path);
       conversationData.messageCountPerUser = new Map();
       conversationData.charCountPerUser = new Map();
       conversationData.totalChars = 0;
-      conversationData.totalMessages = jsonFile.messages.length;
+      conversationData.totalMessages = json.messages.length;
       conversationData.messagesPerMonth = new Map();
-      conversationData.users = jsonFile.participants.map(participant =>
+      conversationData.users = json.participants.map(participant =>
         Parser.defaultUser(participant.name)
       );
 
-      jsonFile.messages.forEach(message => {
+      json.messages.forEach(message => {
         Parser.setMessageCountPerUser(
           message,
           conversationData.messageCountPerUser
@@ -99,12 +96,63 @@ class Parser {
       formatMap(conversationData.messagesPerMonth);
       formatMap(conversationData.messageCountPerUser);
       formatMap(conversationData.charCountPerUser);
-      conversationsData[route] = conversationData;
+      // conversationsData[route] = conversationData;
+      console.log(conversationData);
+    }
+  }
+
+  static parseStaticFile(route) {
+    if (!conversationsData[route]) {
+      console.log('Parsing ' + route);
+      const conversationData = {};
+      if (conversations[route]) {
+        const { filePath } = conversations[route];
+        const jsonFile = require(`../input/${filePath}`);
+        if (jsonFile) {
+          conversationData.conversationName = convertUnicode(jsonFile.title);
+          conversationData.conversationID = convertUnicode(
+            jsonFile.thread_path
+          );
+          conversationData.messageCountPerUser = new Map();
+          conversationData.charCountPerUser = new Map();
+          conversationData.totalChars = 0;
+          conversationData.totalMessages = jsonFile.messages.length;
+          conversationData.messagesPerMonth = new Map();
+          conversationData.users = jsonFile.participants.map(participant =>
+            Parser.defaultUser(participant.name)
+          );
+
+          jsonFile.messages.forEach(message => {
+            Parser.setMessageCountPerUser(
+              message,
+              conversationData.messageCountPerUser
+            );
+            Parser.setCharCountPerUser(
+              message,
+              conversationData.charCountPerUser
+            );
+            Parser.setTotalChars(message, conversationData);
+            Parser.setMessagesPerMonth(
+              message,
+              conversationData.messagesPerMonth
+            );
+            Parser.setUserData(message, conversationData.users);
+          });
+
+          conversationData.users.forEach(user =>
+            formatMap(user.messagesPerMonth)
+          );
+          formatMap(conversationData.messagesPerMonth);
+          formatMap(conversationData.messageCountPerUser);
+          formatMap(conversationData.charCountPerUser);
+          conversationsData[route] = conversationData;
+        }
+      }
     }
   }
 
   static getConversationData(route) {
-    if (!conversationsData[route]) Parser.parse(route);
+    if (!conversationsData[route]) Parser.parseStaticFile(route);
     return conversationsData[route];
   }
 }

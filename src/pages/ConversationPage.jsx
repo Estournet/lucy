@@ -14,16 +14,39 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 class ConversationPage extends React.PureComponent {
-  constructor(props) {
-    super();
-    Parser.parse(props.match.params.conversationID);
+  state = {
+    conversationData: null
+  };
+
+  // constructor(props) {
+  //   super();
+  //   Parser.parse(props.match.params.conversationID);
+  // }
+  componentDidMount() {
+    // Parser.parse(this.props.match.params.conversationID);
+    this.setState({
+      conversationData: Parser.getConversationData(
+        this.props.match.params.conversationID
+      )
+    });
   }
 
   render() {
+    const { conversationData } = this.state;
+    console.log('rendering');
+    console.log(this.state.conversationData);
+    if (this.state.conversationData === null) {
+      return (
+        <Typography variant="headline" align="left" color="textPrimary">
+          LOADINGLOADINGLOADINGLOADINGLOADINGLOADINGLOADINGLOADING
+        </Typography>
+      );
+    }
     const { props } = this;
-    const conversationData = Parser.getConversationData(
-      props.match.params.conversationID
-    );
+
+    // const conversationData = Parser.getConversationData(
+    //   props.match.params.conversationID
+    // );
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
         <div>
@@ -111,4 +134,7 @@ const styles = theme => ({
   }
 });
 
+// As we import pages asynchroneously, the IDE thinks the component is unused.
+// See AsyncComponent.jsx and AsyncContent.jsx for more details
+// noinspection JSUnusedGlobalSymbols
 export default withStyles(styles)(withRouter(ConversationPage));
