@@ -1,3 +1,21 @@
+/*
+ * Lucy - Messenger statistics
+ * Copyright (C) 2018 Vincent M
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -7,71 +25,45 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { convertUnicode } from '../utils/Formats';
 import PropTypes from 'prop-types';
-import testEncrypted from '../input/test-AES-256-CBC.enc';
+import encryptedFile from '../input/hello.enc';
 import CryptoJS from 'crypto-js';
 import LockIcon from '@material-ui/icons/LockOutlined';
 
+/**
+ * Uses AES 256 CBC to decrypt
+ */
 const decrypt = () => {
-  alert('Start decrypting');
-  const req = new XMLHttpRequest();
-  req.open('GET', testEncrypted, false);
-  req.onreadystatechange = function() {
-    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-      alert('Start XML Request');
-      const allText = this.responseText;
-      console.log(allText);
-      const password = 'test';
-      const bytes = CryptoJS.AES.decrypt(allText, password);
-      // const plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      console.log(bytes.toString());
-      console.log(bin2String(bytes));
-      console.log('END');
-      alert('END XML Request');
-      // console.log(plaintext)
-    }
-  };
-  req.send(null);
-
-  // const password = "NiqueTaMereAntoine";
-  // const rawData = (testEncrypted);
-  // Decode the base64 data so we can separate iv and crypt text.
-  //     var iv = rawData.substring(0, 16);
-  //     var crypttext = rawData.substring(16);
-  //     console.log(crypttext);
-  // Decrypt...
-  //     var plaintextArray = CryptoJS.AES.decrypt(
-  //       { ciphertext: CryptoJS.enc.Latin1.parse(crypttext) },
-  //       CryptoJS.enc.Hex.parse(password),
-  //       { iv: CryptoJS.enc.Latin1.parse(iv) }
-  //     );
-  //     const result = CryptoJS.enc.Latin1.stringify(plaintextArray);
-  //     console.log(result);
-  //     this.setState({ enc: result });
-
-  // console.log("Decrypting...");
-  // console.log("Input : " );
-  // console.log(testEncrypted.toString())
-  // const encrypted = CryptoJS.AES.encrypt(JSON.stringify(test), password);
-  // console.log(encrypted.toString());
-  // const bytes = CryptoJS.AES.decrypt(testEncrypted, password);
-  // console.log(bytes);
-  // const plaintext = bytes.toString(CryptoJS.enc.Utf8);
-  // this.setState({enc: plaintext})
-  // console.log(plaintext);
-};
-const hex2a = hex => {
-  var str = '';
-  for (var i = 0; i < hex.length; i += 2)
-    str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  return str;
+  fetch(encryptedFile)
+    .then(res => res.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.readAsBinaryString(blob);
+      reader.addEventListener('loadend', () => {
+        const password = 'hello';
+        const encryptedText = reader.result;
+        const decrytedText = CryptoJS.AES.decrypt(encryptedText, password, {
+          mode: CryptoJS.mode.CBC
+        });
+        const plaintext = decrytedText.toString(CryptoJS.enc.Utf8);
+        console.log(plaintext);
+      });
+    });
 };
 
-const bin2String = array => {
-  var result = '';
-  for (var i = 0; i < array.length; i++) {
-    result += String.fromCharCode(parseInt(array[i], 2));
-  }
-  return result;
+/**
+ * Uses AES 256 CBC to encrypt
+ */
+const encrypt = () => {
+  console.log('Start encryption');
+  const textToEncrypt = '{"field1": "hello","field2": "world"}';
+  // const textToEncrypt = JSON.stringify(file);
+  const password = 'myVerySecurePassword';
+  const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
+    mode: CryptoJS.mode.CBC
+  });
+  console.log('Encrypted text');
+  console.log(encryptedText.toString());
+  console.log('End encryption');
 };
 
 const EncryptedConversationCard = props => (
