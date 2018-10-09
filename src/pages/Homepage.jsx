@@ -31,19 +31,21 @@ const Homepage = props => (
     <div className={props.classes.content}>
       <div className={props.classes.title}>
         <Typography
-          variant="display2"
+          variant="h2"
           align="center"
           color="textPrimary"
           gutterBottom
         >
           Lucy
         </Typography>
-        <Typography variant="headline" align="center" color="textPrimary">
+        <Typography variant="h3" align="center" color="textPrimary">
           Messenger statistics
         </Typography>
       </div>
-      <UploadConversation />
       <Grid container spacing={16}>
+        <Grid item xs={12}>
+          <UploadConversation />
+        </Grid>
         {Object.keys(conversations)
           .sort()
           .map(

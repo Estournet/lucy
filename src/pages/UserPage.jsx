@@ -18,7 +18,7 @@
 
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import UserStats from '../components/UserStats';
+import Stats from '../components/Stats.jsx';
 import Parser from '../utils/Parser';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
@@ -52,12 +52,12 @@ const UserPage = props => {
                 </IconButton>
                 <div className={props.classes.flexContainer}>
                   <div className={props.classes.flex}>
-                    <Typography variant="headline">
+                    <Typography variant="h5">
                       {props.match.params.userName}
                     </Typography>
                     <Typography
                       noWrap
-                      variant="subheading"
+                      variant="subtitle1"
                       color="textSecondary"
                     >
                       {conversationData.conversationName}
@@ -70,7 +70,10 @@ const UserPage = props => {
           <Grid item xs={12}>
             <Grid container spacing={16}>
               <Grid item xs={12}>
-                <UserStats user={user} />
+                <Stats
+                  totalMessages={user.totalMessages}
+                  totalChars={user.totalChars}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Chart

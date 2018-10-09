@@ -15,6 +15,12 @@
     "conversationID": "test-AES-256-CBC.enc",
     "encrypted": true
   },
+  "test-AES-256-CBC.enc2": {
+    "filePath": "test-AES-256-CBC.enc2",
+    "displayName": "Conversation chiffr\u00c3\u00a9e 2",
+    "conversationID": "test-AES-256-CBC.enc 2",
+    "encrypted": true
+  },
   "Leau_f8c128234b": {
     "filePath": "Lagoon.json",
     "displayName": "L'eau \u00f0\u009f\u0092\u00a7",

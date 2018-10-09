@@ -39,6 +39,11 @@ const AsyncContent = () => (
   <Switch>
     <Route
       exact
+      path="/yay"
+      render={newProps => <AsyncNotFoundPage {...newProps} />}
+    />
+    <Route
+      exact
       path="/:conversationID"
       render={newProps => <AsyncConversationPage {...newProps} />}
     />

@@ -20,14 +20,14 @@ import React from 'react';
 import NotFoundPage from '../pages/NotFoundPage';
 
 class ErrorCatcher extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { hasError: false };
   }
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true });
-    console.log(error, info);
+    console.error(error, info); // TODO Remove for "release"
   }
 
   render() {

@@ -42,7 +42,7 @@ const Decoration = props => (
               to="/"
             />
             <Typography
-              variant="title"
+              variant="h6"
               color="inherit"
               component={Link}
               noWrap

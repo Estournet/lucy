@@ -17,7 +17,6 @@
  */
 
 import React from 'react';
-import Grid from '@material-ui/core/Grid/Grid';
 import Button from '@material-ui/core/Button/Button';
 import Typography from '@material-ui/core/Typography/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -60,69 +59,37 @@ class UploadConversation extends React.PureComponent {
   render() {
     const { classes } = this.props;
     return (
-      <Grid
-        container
-        spacing={16}
-        alignContent="center"
-        alignItems="center"
-        justify="center"
-      >
-        <Grid item xs={12}>
-          <label htmlFor="fileInput">
-            <input
-              accept="application/json"
-              className={classes.input}
-              id="fileInput"
-              multiple
-              type="file"
-              onChange={this.handleUploadChange}
-            />
-            <Button
-              variant="raised"
-              color="primary"
-              fullWidth
-              component="span"
-              className={classes.button}
-            >
-              Choisir un fichier
-            </Button>
-            <Typography
-              variant="caption"
-              color="textSecondary"
-              align="center"
-              className={classes.marginTop}
-            >
-              4Mo max, JPG, PNG, BMP et GIF uniquement
-            </Typography>
-          </label>
-        </Grid>
-      </Grid>
+      <label htmlFor="fileInput">
+        <input
+          accept="application/json"
+          className={classes.input}
+          id="fileInput"
+          multiple
+          type="file"
+          onChange={this.handleUploadChange}
+        />
+        <Button variant="contained" color="primary" fullWidth component="span">
+          Choisir un fichier
+        </Button>
+        <Typography
+          variant="overline"
+          color="textSecondary"
+          align="center"
+          className={classes.marginTop}
+        >
+          4Mo max, JPG, PNG, BMP et GIF uniquement
+        </Typography>
+      </label>
     );
   }
 }
 
 const styles = theme => ({
-  paper: theme.mixins.gutters({
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  }),
-  flexContainer: {
-    display: 'flex',
-    justifyContent: 'space-evenly'
-  },
   input: {
     display: 'none'
   },
-  button: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
   marginTop: {
     marginTop: theme.spacing.unit
-  },
-  gimmeSpacePlease: {
-    marginTop: '50px',
-    marginBottom: '50px'
   }
 });
 

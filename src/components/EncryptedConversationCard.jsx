@@ -28,61 +28,141 @@ import PropTypes from 'prop-types';
 import encryptedFile from '../input/hello.enc';
 import CryptoJS from 'crypto-js';
 import LockIcon from '@material-ui/icons/LockOutlined';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import Slide from '@material-ui/core/Slide/Slide';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
+import TextField from '@material-ui/core/TextField/TextField';
+import DialogActions from '@material-ui/core/DialogActions/DialogActions';
+import Button from '@material-ui/core/Button/Button';
 
-/**
- * Uses AES 256 CBC to decrypt
- */
-const decrypt = () => {
-  fetch(encryptedFile)
-    .then(res => res.blob())
-    .then(blob => {
-      const reader = new FileReader();
-      reader.readAsBinaryString(blob);
-      reader.addEventListener('loadend', () => {
-        const password = 'hello';
-        const encryptedText = reader.result;
-        const decrytedText = CryptoJS.AES.decrypt(encryptedText, password, {
-          mode: CryptoJS.mode.CBC
+class EncryptedConversationCard extends React.PureComponent {
+  state = {
+    showPasswordField: false,
+    passwordInput: '',
+    wrongPassword: false
+  };
+  /**
+   * Uses AES 256 CBC to decrypt
+   */
+  decrypt = event => {
+    event.preventDefault();
+    fetch(encryptedFile)
+      .then(res => res.blob())
+      .then(blob => {
+        const reader = new FileReader();
+        reader.readAsBinaryString(blob);
+        reader.addEventListener('loadend', () => {
+          const password = this.state.passwordInput;
+          const encryptedText = reader.result;
+          const decrytedText = CryptoJS.AES.decrypt(encryptedText, password, {
+            mode: CryptoJS.mode.CBC
+          });
+          try {
+            const plainText = decrytedText.toString(CryptoJS.enc.Utf8);
+            if (plainText) this.setState({ wrongPassword: false });
+            else this.setState({ wrongPassword: true });
+            console.log(plainText);
+          } catch (e) {
+            this.setState({ wrongPassword: true });
+          }
         });
-        const plaintext = decrytedText.toString(CryptoJS.enc.Utf8);
-        console.log(plaintext);
       });
+  };
+
+  /**
+   * Uses AES 256 CBC to encrypt
+   */
+  encrypt = () => {
+    console.log('Start encryption');
+    const textToEncrypt = '{"field1": "hello","field2": "world"}';
+    // const textToEncrypt = JSON.stringify(file);
+    const password = 'myVerySecurePassword';
+    const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
+      mode: CryptoJS.mode.CBC
     });
-};
+    console.log('Encrypted text');
+    console.log(encryptedText.toString());
+    console.log('End encryption');
+  };
 
-/**
- * Uses AES 256 CBC to encrypt
- */
-const encrypt = () => {
-  console.log('Start encryption');
-  const textToEncrypt = '{"field1": "hello","field2": "world"}';
-  // const textToEncrypt = JSON.stringify(file);
-  const password = 'myVerySecurePassword';
-  const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
-    mode: CryptoJS.mode.CBC
-  });
-  console.log('Encrypted text');
-  console.log(encryptedText.toString());
-  console.log('End encryption');
-};
+  showPasswordField = () => this.setState({ showPasswordField: true });
+  hidePasswordField = () => this.setState({ showPasswordField: false });
+  handlePasswordInputChange = event =>
+    this.setState({ passwordInput: event.target.value });
 
-const EncryptedConversationCard = props => (
-  <Grid item xs={12} sm={6} lg={3} xl={2} key={props.conversationID}>
-    <Paper className={props.classes.paper} onClick={() => decrypt()}>
-      <div className={props.classes.flexContainer}>
-        <LockIcon size="small" className={props.classes.iconRight} />
-        <div className={props.classes.flex}>
-          <Typography variant="body2">
-            {convertUnicode(props.displayName)}
-          </Typography>
-        </div>
-        <IconButton size="small" className={props.classes.iconLeft}>
-          <ChevronRightIcon />
-        </IconButton>
-      </div>
-    </Paper>
-  </Grid>
-);
+  render() {
+    const { state, props } = this;
+    return (
+      <React.Fragment>
+        <Grid item xs={12} sm={6} lg={3} xl={2} key={props.conversationID}>
+          <Paper
+            className={props.classes.paper}
+            onClick={this.showPasswordField}
+          >
+            <div className={props.classes.flexContainer}>
+              <LockIcon size="small" className={props.classes.iconRight} />
+              <div className={props.classes.flex}>
+                <Typography variant="subtitle2">
+                  {convertUnicode(props.displayName)}
+                </Typography>
+              </div>
+              <IconButton size="small" className={props.classes.iconLeft}>
+                <ChevronRightIcon />
+              </IconButton>
+            </div>
+          </Paper>
+        </Grid>
+        <Dialog
+          TransitionComponent={Transition}
+          keepMounted
+          open={state.showPasswordField}
+          onClose={this.hidePasswordField}
+        >
+          <form onSubmit={this.decrypt}>
+            <DialogTitle id="form-dialog-title">
+              Conversation chiffrée
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText variant="body1">
+                Cette conversation est chiffrée. Pour la déchiffrer, veuillez
+                entrer le mot de passe qui vous a été communiqué.
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Mot de passe"
+                fullWidth
+                required
+                value={state.passwordInput}
+                onChange={this.handlePasswordInputChange}
+                error={state.wrongPassword}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.hidePasswordField} color="primary">
+                Annuler
+              </Button>
+              <Button
+                onClick={this.decrypt}
+                variant="contained"
+                color="primary"
+                disabled={state.passwordInput.length < 1}
+              >
+                Déchiffrer
+                <LockOpenIcon className={props.classes.iconLeft} />
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
+      </React.Fragment>
+    );
+  }
+}
+
+const Transition = props => <Slide direction="up" {...props} />;
 
 const styles = theme => ({
   flexContainer: {

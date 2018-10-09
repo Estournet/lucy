@@ -33,7 +33,7 @@ const ConversationCard = props => (
       <div className={props.classes.flexContainer}>
         <div className={props.classes.flex}>
           <Typography
-            variant="body2"
+            variant="subtitle2"
             component={Link}
             to={encodeURI(`/${props.conversationID}`)}
             className={props.classes.textDecorationNone}

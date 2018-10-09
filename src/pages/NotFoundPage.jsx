@@ -31,13 +31,13 @@ const NotFoundPage = props => (
     direction="column"
   >
     <Grid item xs={12}>
-      <Typography variant="display1" align="center">
+      <Typography variant="h2" align="center">
         Oops, page non trouvée !
       </Typography>
     </Grid>
     <Grid item xs={12}>
       <Button
-        variant="raised"
+        variant="contained"
         size="large"
         color="primary"
         component={Link}

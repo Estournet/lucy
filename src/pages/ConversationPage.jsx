@@ -18,7 +18,6 @@
 
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import Stats from '../components/Stats';
 import Parser from '../utils/Parser';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid/Grid';
@@ -30,21 +29,14 @@ import Paper from '@material-ui/core/Paper/Paper';
 import Toolbar from '@material-ui/core/Toolbar/Toolbar';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Stats from '../components/Stats.jsx';
 
-/**
- *
- */
 class ConversationPage extends React.PureComponent {
   state = {
     conversationData: null
   };
 
-  // constructor(props) {
-  //   super();
-  //   Parser.parse(props.match.params.conversationID);
-  // }
   componentDidMount() {
-    // Parser.parse(this.props.match.params.conversationID);
     this.setState({
       conversationData: Parser.getConversationData(
         this.props.match.params.conversationID
@@ -54,20 +46,8 @@ class ConversationPage extends React.PureComponent {
 
   render() {
     const { conversationData } = this.state;
-    console.log('rendering');
-    console.log(this.state.conversationData);
-    if (this.state.conversationData === null) {
-      return (
-        <Typography variant="headline" align="left" color="textPrimary">
-          LOADINGLOADINGLOADINGLOADINGLOADINGLOADINGLOADINGLOADING
-        </Typography>
-      );
-    }
     const { props } = this;
-
-    // const conversationData = Parser.getConversationData(
-    //   props.match.params.conversationID
-    // );
+    if (conversationData === null) return ''; //TODO
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
         <div>
@@ -84,11 +64,7 @@ class ConversationPage extends React.PureComponent {
                       <ArrowBackIcon />
                     </IconButton>
                     <div className={props.classes.flex}>
-                      <Typography
-                        variant="headline"
-                        align="left"
-                        color="textPrimary"
-                      >
+                      <Typography variant="h5" align="left" color="textPrimary">
                         {conversationData.conversationName}
                       </Typography>
                     </div>
@@ -103,7 +79,10 @@ class ConversationPage extends React.PureComponent {
               />
             </Grid>
             <Grid item xs={12}>
-              <Stats conversationID={conversationData.conversationID} />
+              <Stats
+                totalMessages={conversationData.totalMessages}
+                totalChars={conversationData.totalChars}
+              />
             </Grid>
             <Grid item xs={12}>
               <Chart

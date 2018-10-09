@@ -1,3 +1,21 @@
+/*
+ * Lucy - Messenger statistics
+ * Copyright (C) 2018 Vincent M
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid/Grid';
@@ -11,7 +29,7 @@ import Paper from '@material-ui/core/Paper/Paper';
 const Members = props => (
   <Grid container spacing={16}>
     <Grid item xs={12}>
-      <Typography variant="title">
+      <Typography variant="h5">
         Membres de la conversation ({props.usersName.length})
       </Typography>
     </Grid>
@@ -20,7 +38,7 @@ const Members = props => (
         <Paper className={props.classes.paper}>
           <div className={props.classes.flexContainer}>
             <div className={props.classes.flex}>
-              <Typography variant="body2">{userName}</Typography>
+              <Typography variant="subtitle2">{userName}</Typography>
             </div>
             <div>
               <IconButton
