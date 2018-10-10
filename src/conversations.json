@@ -7,18 +7,28 @@
   "LeClubPetanque_ccc590160aTest": {
     "filePath": "test.json",
     "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090 (Test)",
+    "subtitle": "Fichier de test",
     "conversationID": "LeClubPetanque_ccc590160aTest"
   },
   "test-AES-256-CBC.enc": {
     "filePath": "test-AES-256-CBC.enc",
     "displayName": "Conversation chiffr\u00c3\u00a9e",
     "conversationID": "test-AES-256-CBC.enc",
+    "subtitle": "test The situation is that I use axios gain data from back-end and I want to redirect from current page to another page as well as passing some data.",
     "encrypted": true
   },
   "test-AES-256-CBC.enc2": {
     "filePath": "test-AES-256-CBC.enc2",
     "displayName": "Conversation chiffr\u00c3\u00a9e 2",
     "conversationID": "test-AES-256-CBC.enc 2",
+    "subtitle": "test",
+    "encrypted": true
+  },
+  "test-AES-256-CBC.enc3": {
+    "filePath": "test-AES-256-CBC.enc3",
+    "displayName": "Conversation chiffr\u00c3\u00a9e 3",
+    "conversationID": "test-AES-256-CBC.enc 3",
+    "subtitle": "test",
     "encrypted": true
   },
   "Leau_f8c128234b": {
@@ -29,6 +39,7 @@
   "QuiVeutLaPeauDmonCrew21SQUAD_058807830b": {
     "filePath": "21.json",
     "displayName": "Qui Veut La Peau D'mon Crew ? 21SQUAD \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
+    "subtitle": "The situation is that I use axios gain data from back-end and I want to redirect from current page to another page as well as passing some data.",
     "conversationID": "QuiVeutLaPeauDmonCrew21SQUAD_058807830b"
   }
 }

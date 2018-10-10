@@ -21,43 +21,41 @@ import Button from '@material-ui/core/Button/Button';
 import Typography from '@material-ui/core/Typography/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Parser from '../utils/Parser';
+import { Redirect } from 'react-router-dom';
 
 class UploadConversation extends React.PureComponent {
+  state = {
+    redirect: false,
+    json: undefined
+  };
   handleUploadChange = e => {
     e.preventDefault();
-    // this.setState({
-    //   imagePreviewUrl: null,
-    //   wrongFileType: false,
-    //   fileTooBig: false,
-    // });
-
     const reader = new FileReader();
-    const roadmapFile = e.target.files[0];
-    if (roadmapFile) {
-      // if (!allowedTypes.includes(roadmapFile.type)) {
-      //   this.setState({
-      //     wrongFileType: true
-      //   });
-      // } else if (roadmapFile.size > maxFileSize) {
-      //   this.setState({
-      //     fileTooBig: true
-      //   });
-      // } else {
+    const uploadedFile = e.target.files[0];
+    if (uploadedFile) {
       reader.onloadend = () => {
         this.setState({
-          roadmapFile
-          // imagePreviewUrl: reader.result
+          json: Parser.parsePlainText(reader.result),
+          redirect: true
         });
-        // alert(reader.result)
-        Parser.parseJSON(JSON.parse(reader.result));
       };
-      reader.readAsText(roadmapFile);
+      reader.readAsText(uploadedFile);
     }
-    // }
   };
 
   render() {
     const { classes } = this.props;
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/yay',
+            conversationData: this.state.json
+          }}
+        />
+      );
+    }
+
     return (
       <label htmlFor="fileInput">
         <input
@@ -77,7 +75,7 @@ class UploadConversation extends React.PureComponent {
           align="center"
           className={classes.marginTop}
         >
-          4Mo max, JPG, PNG, BMP et GIF uniquement
+          Fichier de conversation Messenger (format JSON).
         </Typography>
       </label>
     );

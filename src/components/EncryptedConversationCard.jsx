@@ -25,7 +25,6 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { convertUnicode } from '../utils/Formats';
 import PropTypes from 'prop-types';
-import encryptedFile from '../input/hello.enc';
 import CryptoJS from 'crypto-js';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -37,6 +36,10 @@ import DialogContentText from '@material-ui/core/DialogContentText/DialogContent
 import TextField from '@material-ui/core/TextField/TextField';
 import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import Button from '@material-ui/core/Button/Button';
+import Parser from '../utils/Parser';
+import { Redirect } from 'react-router-dom';
+import encryptedFile from '../input/test.enc';
+import test from '../input/test';
 
 class EncryptedConversationCard extends React.PureComponent {
   state = {
@@ -62,10 +65,20 @@ class EncryptedConversationCard extends React.PureComponent {
           });
           try {
             const plainText = decrytedText.toString(CryptoJS.enc.Utf8);
-            if (plainText) this.setState({ wrongPassword: false });
-            else this.setState({ wrongPassword: true });
+            console.log(plainText);
+            if (!plainText) {
+              this.setState({ wrongPassword: true });
+            } else {
+              console.log('ok');
+              this.setState({
+                wrongPassword: false,
+                redirect: true,
+                json: Parser.parsePlainText(plainText)
+              });
+            }
             console.log(plainText);
           } catch (e) {
+            console.log(e);
             this.setState({ wrongPassword: true });
           }
         });
@@ -77,9 +90,10 @@ class EncryptedConversationCard extends React.PureComponent {
    */
   encrypt = () => {
     console.log('Start encryption');
-    const textToEncrypt = '{"field1": "hello","field2": "world"}';
-    // const textToEncrypt = JSON.stringify(file);
-    const password = 'myVerySecurePassword';
+    // const textToEncrypt = '{"field1": "hello","field2": "world"}';
+    const textToEncrypt = JSON.stringify(test);
+    const password = 'test';
+    // const password = "myVerySecurePassword";
     const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
       mode: CryptoJS.mode.CBC
     });
@@ -95,6 +109,16 @@ class EncryptedConversationCard extends React.PureComponent {
 
   render() {
     const { state, props } = this;
+    if (state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: '/yay',
+            conversationData: this.state.json
+          }}
+        />
+      );
+    }
     return (
       <React.Fragment>
         <Grid item xs={12} sm={6} lg={3} xl={2} key={props.conversationID}>
@@ -105,8 +129,11 @@ class EncryptedConversationCard extends React.PureComponent {
             <div className={props.classes.flexContainer}>
               <LockIcon size="small" className={props.classes.iconRight} />
               <div className={props.classes.flex}>
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle1">
                   {convertUnicode(props.displayName)}
+                </Typography>
+                <Typography variant="subtitle2">
+                  {convertUnicode(props.subtitle)}
                 </Typography>
               </div>
               <IconButton size="small" className={props.classes.iconLeft}>
@@ -188,10 +215,15 @@ const styles = theme => ({
   }
 });
 
+EncryptedConversationCard.defaultProps = {
+  subtitle: ''
+};
+
 EncryptedConversationCard.propTypes = {
   conversationID: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  displayName: PropTypes.string.isRequired
+  displayName: PropTypes.string.isRequired,
+  subtitle: PropTypes.string
 };
 
 export default withStyles(styles)(EncryptedConversationCard);

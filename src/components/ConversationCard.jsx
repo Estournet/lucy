@@ -33,12 +33,20 @@ const ConversationCard = props => (
       <div className={props.classes.flexContainer}>
         <div className={props.classes.flex}>
           <Typography
-            variant="subtitle2"
+            variant="subtitle1"
             component={Link}
             to={encodeURI(`/${props.conversationID}`)}
             className={props.classes.textDecorationNone}
           >
             {convertUnicode(props.displayName)}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            component={Link}
+            to={encodeURI(`/${props.conversationID}`)}
+            className={props.classes.textDecorationNone}
+          >
+            {convertUnicode(props.subtitle)}
           </Typography>
         </div>
         <IconButton
@@ -75,10 +83,15 @@ const styles = theme => ({
   }
 });
 
+ConversationCard.defaultProps = {
+  subtitle: ''
+};
+
 ConversationCard.propTypes = {
   conversationID: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  displayName: PropTypes.string.isRequired
+  displayName: PropTypes.string.isRequired,
+  subtitle: PropTypes.string
 };
 
 export default withStyles(styles)(ConversationCard);

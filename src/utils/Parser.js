@@ -49,20 +49,14 @@ class Parser {
 
   static setTotalChars = (message, data) => {
     const content = message.content;
-
-    if (content) {
-      data.totalChars += content.length;
-    }
+    if (content) data.totalChars += content.length;
   };
 
   static setMessagesPerMonth = (message, map) => {
     const date = new Date(message.timestamp_ms);
     const key = format(date, 'MMM YY');
-    if (map.get(key) === undefined) {
-      map.set(key, 0);
-    } else {
-      map.set(key, map.get(key) + 1);
-    }
+    if (map.get(key) === undefined) map.set(key, 0);
+    else map.set(key, map.get(key) + 1);
   };
 
   static setUserData = (message, users) => {
@@ -85,8 +79,22 @@ class Parser {
     totalChars: 0
   });
 
-  static parseJSON(json) {
-    if (json) {
+  static parsePlainText = plainText => Parser.parseJSON(JSON.parse(plainText));
+
+  static parseStaticFile = route => {
+    if (conversations[route]) {
+      try {
+        const { filePath } = conversations[route];
+        const jsonFile = require(`../input/${filePath}`);
+        if (jsonFile) conversationsData[route] = Parser.parseJSON(jsonFile);
+      } catch (e) {
+        throw Error('Fichier non trouvé');
+      }
+    }
+  };
+
+  static parseJSON = json => {
+    try {
       const conversationData = {};
       conversationData.conversationName = convertUnicode(json.title);
       conversationData.conversationID = convertUnicode(json.thread_path);
@@ -114,60 +122,11 @@ class Parser {
       formatMap(conversationData.messagesPerMonth);
       formatMap(conversationData.messageCountPerUser);
       formatMap(conversationData.charCountPerUser);
-      // conversationsData[route] = conversationData;
-      console.log(conversationData);
+      return conversationData;
+    } catch (e) {
+      throw Error('Fichier mal formé'); // TODO Mettre des messages plus explicites
     }
-  }
-
-  static parseStaticFile(route) {
-    if (!conversationsData[route]) {
-      console.log('Parsing ' + route);
-      const conversationData = {};
-      if (conversations[route]) {
-        const { filePath } = conversations[route];
-        const jsonFile = require(`../input/${filePath}`);
-        if (jsonFile) {
-          conversationData.conversationName = convertUnicode(jsonFile.title);
-          conversationData.conversationID = convertUnicode(
-            jsonFile.thread_path
-          );
-          conversationData.messageCountPerUser = new Map();
-          conversationData.charCountPerUser = new Map();
-          conversationData.totalChars = 0;
-          conversationData.totalMessages = jsonFile.messages.length;
-          conversationData.messagesPerMonth = new Map();
-          conversationData.users = jsonFile.participants.map(participant =>
-            Parser.defaultUser(participant.name)
-          );
-
-          jsonFile.messages.forEach(message => {
-            Parser.setMessageCountPerUser(
-              message,
-              conversationData.messageCountPerUser
-            );
-            Parser.setCharCountPerUser(
-              message,
-              conversationData.charCountPerUser
-            );
-            Parser.setTotalChars(message, conversationData);
-            Parser.setMessagesPerMonth(
-              message,
-              conversationData.messagesPerMonth
-            );
-            Parser.setUserData(message, conversationData.users);
-          });
-
-          conversationData.users.forEach(user =>
-            formatMap(user.messagesPerMonth)
-          );
-          formatMap(conversationData.messagesPerMonth);
-          formatMap(conversationData.messageCountPerUser);
-          formatMap(conversationData.charCountPerUser);
-          conversationsData[route] = conversationData;
-        }
-      }
-    }
-  }
+  };
 
   static getConversationData(route) {
     if (!conversationsData[route]) Parser.parseStaticFile(route);

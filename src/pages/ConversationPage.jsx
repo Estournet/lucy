@@ -33,15 +33,20 @@ import Stats from '../components/Stats.jsx';
 
 class ConversationPage extends React.PureComponent {
   state = {
-    conversationData: null
+    conversationData: undefined
   };
 
   componentDidMount() {
-    this.setState({
-      conversationData: Parser.getConversationData(
-        this.props.match.params.conversationID
-      )
-    });
+    const { location, match } = this.props;
+    if (location.conversationData) {
+      this.setState({ conversationData: location.conversationData });
+    } else {
+      this.setState({
+        conversationData: Parser.getConversationData(
+          match.params.conversationID
+        )
+      });
+    }
   }
 
   render() {

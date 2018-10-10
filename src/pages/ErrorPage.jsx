@@ -21,7 +21,7 @@ import { Button, Grid, Typography, withStyles } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const NotFoundPage = props => (
+const ErrorPage = props => (
   <Grid
     container
     spacing={40}
@@ -32,7 +32,7 @@ const NotFoundPage = props => (
   >
     <Grid item xs={12}>
       <Typography variant="h2" align="center">
-        Oops, page non trouvée !
+        {props.error}
       </Typography>
     </Grid>
     <Grid item xs={12}>
@@ -57,11 +57,16 @@ const styles = theme => ({
   }
 });
 
-NotFoundPage.propTypes = {
-  classes: PropTypes.object.isRequired
+ErrorPage.defaultProps = {
+  error: 'Erreur inattendue'
+};
+
+ErrorPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  error: PropTypes.string
 };
 
 // As we import pages asynchroneously, the IDE thinks the component is unused.
 // See AsyncComponent.jsx and AsyncContent.jsx for more details
 // noinspection JSUnusedGlobalSymbols
-export default withStyles(styles)(NotFoundPage);
+export default withStyles(styles)(ErrorPage);

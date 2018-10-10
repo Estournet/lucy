@@ -33,8 +33,6 @@ const App = () => (
           <Route exact path="/" render={() => <Homepage />} />
           <Route path="/" render={() => <Decoration />} />
         </Switch>
-
-        {/*<Decoration />*/}
       </MuiThemeProvider>
     </React.Fragment>
   </BrowserRouter>

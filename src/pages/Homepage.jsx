@@ -55,12 +55,14 @@ const Homepage = props => (
                   key={conversationID}
                   conversationID={conversationID}
                   displayName={conversations[conversationID].displayName}
+                  subtitle={conversations[conversationID].subtitle}
                 />
               ) : (
                 <ConversationCard
                   key={conversationID}
                   conversationID={conversationID}
                   displayName={conversations[conversationID].displayName}
+                  subtitle={conversations[conversationID].subtitle}
                 />
               )
           )}

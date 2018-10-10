@@ -54,8 +54,6 @@ class Chart extends React.PureComponent {
     for (let i = 0; i < size; i++) {
       chartColors.push(availableColors[i % availableColors.length]);
     }
-    console.log(this.props.data);
-
     return chartColors;
   };
 

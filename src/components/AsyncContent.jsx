@@ -25,9 +25,7 @@ const AsyncConversationPage = asyncComponent(() =>
   import('../pages/ConversationPage.jsx')
 );
 
-const AsyncNotFoundPage = asyncComponent(() =>
-  import('../pages/NotFoundPage.jsx')
-);
+const AsyncErrorPage = asyncComponent(() => import('../pages/ErrorPage.jsx'));
 
 /**
  * Charge le contenu de la page dynamiquement. Ainsi, webpack peut importer à la volée les différents bundles nécéssaires.
@@ -40,7 +38,7 @@ const AsyncContent = () => (
     <Route
       exact
       path="/yay"
-      render={newProps => <AsyncNotFoundPage {...newProps} />}
+      render={newProps => <AsyncConversationPage {...newProps} />}
     />
     <Route
       exact
@@ -52,7 +50,11 @@ const AsyncContent = () => (
       path="/:conversationID/:userName"
       render={newProps => <AsyncUserPage {...newProps} />}
     />
-    <Route render={newProps => <AsyncNotFoundPage {...newProps} />} />
+    <Route
+      render={newProps => (
+        <AsyncErrorPage error={'404 Not found'} {...newProps} />
+      )}
+    />
   </Switch>
 );
 

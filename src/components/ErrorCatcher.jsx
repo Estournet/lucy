@@ -17,7 +17,7 @@
  */
 
 import React from 'react';
-import NotFoundPage from '../pages/NotFoundPage';
+import ErrorPage from '../pages/ErrorPage.jsx';
 
 class ErrorCatcher extends React.PureComponent {
   constructor() {
@@ -26,12 +26,13 @@ class ErrorCatcher extends React.PureComponent {
   }
 
   componentDidCatch(error, info) {
-    this.setState({ hasError: true });
+    this.setState({ hasError: true, error });
     console.error(error, info); // TODO Remove for "release"
   }
 
   render() {
-    if (this.state.hasError) return <NotFoundPage />;
+    const { hasError, error } = this.state;
+    if (hasError) return <ErrorPage error={error.toString()} />;
     return this.props.children;
   }
 }
