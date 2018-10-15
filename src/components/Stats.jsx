@@ -16,13 +16,13 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import Typography from '@material-ui/core/Typography/Typography';
-import { formatNumber } from '../utils/Formats';
-import Paper from '@material-ui/core/Paper/Paper';
-import withStyles from '@material-ui/core/styles/withStyles';
-import PropTypes from 'prop-types';
-import InlinedText from './InlinedText';
+import React from "react";
+import Typography from "@material-ui/core/Typography/Typography";
+import { formatNumber } from "../utils/Formats";
+import Paper from "@material-ui/core/Paper/Paper";
+import withStyles from "@material-ui/core/styles/withStyles";
+import PropTypes from "prop-types";
+import InlinedText from "./InlinedText";
 
 const Stats = props => {
   return (
@@ -38,6 +38,10 @@ const Stats = props => {
         leftText="Nombre total de caractères"
         rightText={formatNumber(props.totalChars)}
       />
+      <InlinedText
+        leftText="Date du premier message"
+        rightText={props.firstMessageDate}
+      />
     </Paper>
   );
 };
@@ -52,7 +56,8 @@ const styles = theme => ({
 Stats.propTypes = {
   classes: PropTypes.object.isRequired,
   totalMessages: PropTypes.number.isRequired,
-  totalChars: PropTypes.number.isRequired
+  totalChars: PropTypes.number.isRequired,
+  firstMessageDate: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Stats);

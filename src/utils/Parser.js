@@ -16,13 +16,38 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { convertUnicode, formatMap } from './Formats';
-import format from 'date-fns/format';
-import conversations from '../conversations.json';
+import {
+  convertUnicode,
+  formatFullDate,
+  formatMap,
+  formatMMMYYDate
+} from "./Formats";
+import conversations from "../conversations.json";
 
 const conversationsData = {};
 
 class Parser {
+  /* It consumes way too much ressources
+  static countWordFrequency(message, wordFrequency) {
+    if (message.content) {
+      wordFrequency.wordsArray = convertUnicode(message.content).split(/\s+/);
+
+      wordFrequency.wordsArray.forEach(word => {
+        wordFrequency.wordsMap.hasOwnProperty(word)
+          ? wordFrequency.wordsMap[word]++
+          : (wordFrequency.wordsMap[word] = 1);
+      });
+
+      wordFrequency.finalWordsArray = Object.keys(wordFrequency.wordsMap).map(
+        word => ({
+          word,
+          count: wordFrequency.wordsMap[word]
+        })
+      );
+    }
+  }
+  */
+
   static setMessageCountPerUser = (message, map) => {
     const senderName = convertUnicode(message.sender_name);
 
@@ -35,7 +60,7 @@ class Parser {
 
   static setCharCountPerUser = (message, map) => {
     const senderName = convertUnicode(message.sender_name);
-    const content = message.content;
+    const content = convertUnicode(message.content);
 
     if (content) {
       const contentLength = content.length;
@@ -48,13 +73,13 @@ class Parser {
   };
 
   static setTotalChars = (message, data) => {
-    const content = message.content;
+    const content = convertUnicode(message.content);
     if (content) data.totalChars += content.length;
   };
 
   static setMessagesPerMonth = (message, map) => {
     const date = new Date(message.timestamp_ms);
-    const key = format(date, 'MMM YY');
+    const key = formatMMMYYDate(date);
     if (map.get(key) === undefined) map.set(key, 0);
     else map.set(key, map.get(key) + 1);
   };
@@ -88,7 +113,7 @@ class Parser {
         const jsonFile = require(`../input/${filePath}`);
         if (jsonFile) conversationsData[route] = Parser.parseJSON(jsonFile);
       } catch (e) {
-        throw Error('Fichier non trouvé');
+        throw Error("Fichier non trouvé");
       }
     }
   };
@@ -98,6 +123,9 @@ class Parser {
       const conversationData = {};
       conversationData.conversationName = convertUnicode(json.title);
       conversationData.conversationID = convertUnicode(json.thread_path);
+      conversationData.firstMessageDate = formatFullDate(
+        new Date(json.messages[json.messages.length - 1].timestamp_ms)
+      );
       conversationData.messageCountPerUser = new Map();
       conversationData.charCountPerUser = new Map();
       conversationData.totalChars = 0;
@@ -124,7 +152,8 @@ class Parser {
       formatMap(conversationData.charCountPerUser);
       return conversationData;
     } catch (e) {
-      throw Error('Fichier mal formé'); // TODO Mettre des messages plus explicites
+      console.error(e);
+      throw Error("Fichier mal formé"); // TODO Mettre des messages plus explicites
     }
   };
 

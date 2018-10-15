@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React from "react";
 import {
   Bar,
   Doughnut,
@@ -24,17 +24,17 @@ import {
   Line,
   Polar,
   Radar
-} from 'react-chartjs-2';
-import FormControl from '@material-ui/core/FormControl/FormControl';
-import InputLabel from '@material-ui/core/InputLabel/InputLabel';
-import Select from '@material-ui/core/Select/Select';
-import MenuItem from '@material-ui/core/MenuItem/MenuItem';
-import Grid from '@material-ui/core/Grid/Grid';
-import withStyles from '@material-ui/core/styles/withStyles';
-import withTheme from '@material-ui/core/styles/withTheme';
-import Paper from '@material-ui/core/Paper/Paper';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography/Typography';
+} from "react-chartjs-2";
+import FormControl from "@material-ui/core/FormControl/FormControl";
+import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import Select from "@material-ui/core/Select/Select";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import Grid from "@material-ui/core/Grid/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
+import withTheme from "@material-ui/core/styles/withTheme";
+import Paper from "@material-ui/core/Paper/Paper";
+import PropTypes from "prop-types";
+import Typography from "@material-ui/core/Typography/Typography";
 
 class Chart extends React.PureComponent {
   state = {
@@ -43,12 +43,12 @@ class Chart extends React.PureComponent {
 
   getColors = size => {
     const availableColors = [
-      'rgb(194, 24, 91)',
-      'rgb(186, 104, 200)',
-      'rgb(0, 151, 167)',
-      'rgb(0, 200, 83)',
-      'rgb(255, 234, 0)',
-      'rgb(255, 183, 77)'
+      "rgb(194, 24, 91)",
+      "rgb(186, 104, 200)",
+      "rgb(0, 151, 167)",
+      "rgb(0, 200, 83)",
+      "rgb(255, 234, 0)",
+      "rgb(255, 183, 77)"
     ];
     const chartColors = [];
     for (let i = 0; i < size; i++) {
@@ -90,20 +90,20 @@ class Chart extends React.PureComponent {
 
   getChart = () => {
     switch (this.state.chartType) {
-      case 'bar':
+      case "bar":
         return <Bar data={this.getFormattedDataWithRainbowColors} />;
-      case 'horizontalBar':
+      case "horizontalBar":
         return <HorizontalBar data={this.getFormattedDataWithRainbowColors} />;
-      case 'line':
+      case "line":
         return <Line data={this.getFormattedDataWithOneColor} />;
-      case 'donut':
+      case "donut":
         return <Doughnut data={this.getFormattedDataWithRainbowColors} />;
-      case 'polar':
+      case "polar":
         return <Polar data={this.getFormattedDataWithRainbowColors} />;
-      case 'radar':
+      case "radar":
         return <Radar data={this.getFormattedDataWithOneColor} />;
       default:
-        return 'default';
+        return "default";
     }
   };
 
@@ -120,8 +120,7 @@ class Chart extends React.PureComponent {
             <InputLabel>Type de graphique</InputLabel>
             <Select
               value={this.state.chartType}
-              onChange={this.handleChartTypeChange}
-            >
+              onChange={this.handleChartTypeChange}>
               <MenuItem value="bar">Histogramme</MenuItem>
               <MenuItem value="horizontalBar">Histogramme horizontal</MenuItem>
               <MenuItem value="line">Courbe</MenuItem>
@@ -146,20 +145,20 @@ const styles = theme => ({
 });
 
 Chart.defaultProps = {
-  defaultChart: 'horizontalBar',
-  label: '',
-  title: ''
+  defaultChart: "horizontalBar",
+  label: "",
+  title: ""
 };
 
 Chart.propTypes = {
   data: PropTypes.object.isRequired,
   defaultChart: PropTypes.oneOf([
-    'bar',
-    'horizontalBar',
-    'line',
-    'donut',
-    'polar',
-    'radar'
+    "bar",
+    "horizontalBar",
+    "line",
+    "donut",
+    "polar",
+    "radar"
   ]),
   label: PropTypes.string,
   title: PropTypes.string

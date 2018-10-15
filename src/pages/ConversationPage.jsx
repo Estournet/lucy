@@ -16,20 +16,20 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Typography } from '@material-ui/core';
-import Parser from '../utils/Parser';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid/Grid';
-import Chart from '../components/Chart';
-import Members from '../components/Members';
-import Slide from '@material-ui/core/Slide/Slide';
-import { Link, withRouter } from 'react-router-dom';
-import Paper from '@material-ui/core/Paper/Paper';
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Stats from '../components/Stats.jsx';
+import React from "react";
+import { Typography } from "@material-ui/core";
+import Parser from "../utils/Parser";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid/Grid";
+import Chart from "../components/Chart";
+import Members from "../components/Members";
+import Slide from "@material-ui/core/Slide/Slide";
+import { Link, Redirect, withRouter } from "react-router-dom";
+import Paper from "@material-ui/core/Paper/Paper";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Stats from "../components/Stats";
 
 class ConversationPage extends React.PureComponent {
   state = {
@@ -51,24 +51,28 @@ class ConversationPage extends React.PureComponent {
 
   render() {
     const { conversationData } = this.state;
-    const { props } = this;
-    if (conversationData === null) return ''; //TODO
+    const { location, classes } = this.props;
+
+    if (location.pathname === "/scarlettjohansson" && !location.allowed)
+      return <Redirect to="/" />;
+
+    if (!conversationData) return "LOADING"; //TODO
+
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
         <div>
           <Grid container spacing={32}>
             <Grid item xs={12}>
-              <Paper className={props.classes.paper}>
+              <Paper className={classes.paper}>
                 <Toolbar>
-                  <div className={props.classes.flexContainer}>
+                  <div className={classes.flexContainer}>
                     <IconButton
-                      className={props.classes.menuButton}
+                      className={classes.menuButton}
                       component={Link}
-                      to="/"
-                    >
+                      to="/">
                       <ArrowBackIcon />
                     </IconButton>
-                    <div className={props.classes.flex}>
+                    <div className={classes.flex}>
                       <Typography variant="h5" align="left" color="textPrimary">
                         {conversationData.conversationName}
                       </Typography>
@@ -87,6 +91,7 @@ class ConversationPage extends React.PureComponent {
               <Stats
                 totalMessages={conversationData.totalMessages}
                 totalChars={conversationData.totalChars}
+                firstMessageDate={conversationData.firstMessageDate}
               />
             </Grid>
             <Grid item xs={12}>
@@ -129,10 +134,10 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit
   },
   flexContainer: {
-    display: 'flex',
-    flexWrap: 'noWrap',
+    display: "flex",
+    flexWrap: "noWrap",
     flexGrow: 1,
-    alignItems: 'center'
+    alignItems: "center"
   },
   flex: {
     flexGrow: 1

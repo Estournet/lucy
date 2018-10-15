@@ -16,10 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
+import React from "react";
+import PropTypes from "prop-types";
+import Typography from "@material-ui/core/Typography/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 class InlinedText extends React.PureComponent {
   render() {
@@ -29,8 +29,7 @@ class InlinedText extends React.PureComponent {
         <Typography
           align={align}
           variant="subtitle2"
-          className={classes.paddingRight}
-        >
+          className={classes.paddingRight}>
           {`${leftText} :`}
         </Typography>
         <Typography align={align} variant="subtitle1">
@@ -43,9 +42,9 @@ class InlinedText extends React.PureComponent {
 
 const styles = theme => ({
   flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start'
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
   paddingRight: {
     paddingRight: theme.spacing.unit
@@ -53,8 +52,8 @@ const styles = theme => ({
 });
 
 InlinedText.defaultProps = {
-  rightText: '',
-  align: 'left'
+  rightText: "",
+  align: "left"
 };
 
 InlinedText.propTypes = {

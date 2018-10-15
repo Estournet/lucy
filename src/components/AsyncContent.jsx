@@ -16,16 +16,20 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
-import asyncComponent from './AsyncComponent.jsx';
+import React from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import asyncComponent from "./AsyncComponent.jsx";
 
-const AsyncUserPage = asyncComponent(() => import('../pages/UserPage.jsx'));
+const AsyncUserPage = asyncComponent(() => import("../pages/UserPage.jsx"));
+const AsyncHowToPage = asyncComponent(() => import("../pages/HowToPage.jsx"));
+const AsyncEncryptPage = asyncComponent(() =>
+  import("../pages/EncryptPage.jsx")
+);
 const AsyncConversationPage = asyncComponent(() =>
-  import('../pages/ConversationPage.jsx')
+  import("../pages/ConversationPage.jsx")
 );
 
-const AsyncErrorPage = asyncComponent(() => import('../pages/ErrorPage.jsx'));
+const AsyncErrorPage = asyncComponent(() => import("../pages/ErrorPage.jsx"));
 
 /**
  * Charge le contenu de la page dynamiquement. Ainsi, webpack peut importer à la volée les différents bundles nécéssaires.
@@ -37,8 +41,18 @@ const AsyncContent = () => (
   <Switch>
     <Route
       exact
-      path="/yay"
+      path="/scarlettjohansson" // We use this URL because \o/
       render={newProps => <AsyncConversationPage {...newProps} />}
+    />
+    <Route
+      exact
+      path="/howto"
+      render={newProps => <AsyncHowToPage {...newProps} />}
+    />
+    <Route
+      exact
+      path="/encrypt"
+      render={newProps => <AsyncEncryptPage {...newProps} />}
     />
     <Route
       exact
@@ -52,7 +66,7 @@ const AsyncContent = () => (
     />
     <Route
       render={newProps => (
-        <AsyncErrorPage error={'404 Not found'} {...newProps} />
+        <AsyncErrorPage error={"404 Not found"} {...newProps} />
       )}
     />
   </Switch>

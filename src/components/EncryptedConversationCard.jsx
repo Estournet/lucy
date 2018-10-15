@@ -16,48 +16,48 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Typography } from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid/Grid';
-import Paper from '@material-ui/core/Paper/Paper';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { convertUnicode } from '../utils/Formats';
-import PropTypes from 'prop-types';
-import CryptoJS from 'crypto-js';
-import LockIcon from '@material-ui/icons/LockOutlined';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Slide from '@material-ui/core/Slide/Slide';
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
-import TextField from '@material-ui/core/TextField/TextField';
-import DialogActions from '@material-ui/core/DialogActions/DialogActions';
-import Button from '@material-ui/core/Button/Button';
-import Parser from '../utils/Parser';
-import { Redirect } from 'react-router-dom';
-import encryptedFile from '../input/test.enc';
-import test from '../input/test';
+import React from "react";
+import { Typography } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid/Grid";
+import Paper from "@material-ui/core/Paper/Paper";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { convertUnicode } from "../utils/Formats";
+import PropTypes from "prop-types";
+import CryptoJS from "crypto-js";
+import LockIcon from "@material-ui/icons/LockOutlined";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import Slide from "@material-ui/core/Slide/Slide";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
+import TextField from "@material-ui/core/TextField/TextField";
+import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import Button from "@material-ui/core/Button/Button";
+import Parser from "../utils/Parser";
+import { Redirect } from "react-router-dom";
 
 class EncryptedConversationCard extends React.PureComponent {
   state = {
     showPasswordField: false,
-    passwordInput: '',
+    passwordInput: "",
     wrongPassword: false
   };
+
   /**
    * Uses AES 256 CBC to decrypt
    */
   decrypt = event => {
     event.preventDefault();
-    fetch(encryptedFile)
+    const jsonFile = require(`../input/${this.props.filePath}`);
+    fetch(jsonFile)
       .then(res => res.blob())
       .then(blob => {
         const reader = new FileReader();
         reader.readAsBinaryString(blob);
-        reader.addEventListener('loadend', () => {
+        reader.addEventListener("loadend", () => {
           const password = this.state.passwordInput;
           const encryptedText = reader.result;
           const decrytedText = CryptoJS.AES.decrypt(encryptedText, password, {
@@ -65,20 +65,16 @@ class EncryptedConversationCard extends React.PureComponent {
           });
           try {
             const plainText = decrytedText.toString(CryptoJS.enc.Utf8);
-            console.log(plainText);
             if (!plainText) {
               this.setState({ wrongPassword: true });
             } else {
-              console.log('ok');
               this.setState({
                 wrongPassword: false,
                 redirect: true,
                 json: Parser.parsePlainText(plainText)
               });
             }
-            console.log(plainText);
           } catch (e) {
-            console.log(e);
             this.setState({ wrongPassword: true });
           }
         });
@@ -89,17 +85,16 @@ class EncryptedConversationCard extends React.PureComponent {
    * Uses AES 256 CBC to encrypt
    */
   encrypt = () => {
-    console.log('Start encryption');
-    // const textToEncrypt = '{"field1": "hello","field2": "world"}';
-    const textToEncrypt = JSON.stringify(test);
-    const password = 'test';
-    // const password = "myVerySecurePassword";
+    console.log("Start encryption");
+    const textToEncrypt = '{"field1": "hello","field2": "world"}';
+    // const textToEncrypt = JSON.stringify(test);
+    const password = "myVerySecurePassword";
     const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
       mode: CryptoJS.mode.CBC
     });
-    console.log('Encrypted text');
+    console.log("Encrypted text");
     console.log(encryptedText.toString());
-    console.log('End encryption');
+    console.log("End encryption");
   };
 
   showPasswordField = () => this.setState({ showPasswordField: true });
@@ -113,19 +108,19 @@ class EncryptedConversationCard extends React.PureComponent {
       return (
         <Redirect
           to={{
-            pathname: '/yay',
-            conversationData: this.state.json
+            pathname: "/scarlettjohansson", // We use this URL because \o/
+            conversationData: this.state.json,
+            allowed: true
           }}
         />
       );
     }
     return (
-      <React.Fragment>
+      <>
         <Grid item xs={12} sm={6} lg={3} xl={2} key={props.conversationID}>
           <Paper
             className={props.classes.paper}
-            onClick={this.showPasswordField}
-          >
+            onClick={this.showPasswordField}>
             <div className={props.classes.flexContainer}>
               <LockIcon size="small" className={props.classes.iconRight} />
               <div className={props.classes.flex}>
@@ -146,8 +141,7 @@ class EncryptedConversationCard extends React.PureComponent {
           TransitionComponent={Transition}
           keepMounted
           open={state.showPasswordField}
-          onClose={this.hidePasswordField}
-        >
+          onClose={this.hidePasswordField}>
           <form onSubmit={this.decrypt}>
             <DialogTitle id="form-dialog-title">
               Conversation chiffrée
@@ -159,6 +153,7 @@ class EncryptedConversationCard extends React.PureComponent {
               </DialogContentText>
               <TextField
                 autoFocus
+                type="password"
                 margin="dense"
                 label="Mot de passe"
                 fullWidth
@@ -176,15 +171,14 @@ class EncryptedConversationCard extends React.PureComponent {
                 onClick={this.decrypt}
                 variant="contained"
                 color="primary"
-                disabled={state.passwordInput.length < 1}
-              >
+                disabled={state.passwordInput.length < 1}>
                 Déchiffrer
                 <LockOpenIcon className={props.classes.iconLeft} />
               </Button>
             </DialogActions>
           </form>
         </Dialog>
-      </React.Fragment>
+      </>
     );
   }
 }
@@ -193,10 +187,10 @@ const Transition = props => <Slide direction="up" {...props} />;
 
 const styles = theme => ({
   flexContainer: {
-    display: 'flex',
-    flexWrap: 'nowrap',
+    display: "flex",
+    flexWrap: "nowrap",
     flexGrow: 1,
-    alignItems: 'center'
+    alignItems: "center"
   },
   flex: {
     flexGrow: 1
@@ -211,19 +205,20 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   textDecorationNone: {
-    textDecoration: 'none'
+    textDecoration: "none"
   }
 });
 
 EncryptedConversationCard.defaultProps = {
-  subtitle: ''
+  subtitle: ""
 };
 
 EncryptedConversationCard.propTypes = {
   conversationID: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string.isRequired,
-  subtitle: PropTypes.string
+  subtitle: PropTypes.string,
+  filePath: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(EncryptedConversationCard);

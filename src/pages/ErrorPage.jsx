@@ -16,10 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Button, Grid, Typography, withStyles } from '@material-ui/core/';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Button, Grid, Typography, withStyles } from "@material-ui/core/";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const ErrorPage = props => (
   <Grid
@@ -28,8 +28,7 @@ const ErrorPage = props => (
     justify="center"
     alignContent="center"
     alignItems="center"
-    direction="column"
-  >
+    direction="column">
     <Grid item xs={12}>
       <Typography variant="h2" align="center">
         {props.error}
@@ -42,8 +41,7 @@ const ErrorPage = props => (
         color="primary"
         component={Link}
         to="/"
-        className={props.classes.button}
-      >
+        className={props.classes.button}>
         {"Retourner à l'accueil"}
       </Button>
     </Grid>
@@ -58,7 +56,7 @@ const styles = theme => ({
 });
 
 ErrorPage.defaultProps = {
-  error: 'Erreur inattendue'
+  error: "Erreur inattendue"
 };
 
 ErrorPage.propTypes = {

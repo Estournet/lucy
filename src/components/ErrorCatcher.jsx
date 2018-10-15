@@ -16,8 +16,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import ErrorPage from '../pages/ErrorPage.jsx';
+import React from "react";
+import ErrorPage from "../pages/ErrorPage.jsx";
 
 class ErrorCatcher extends React.PureComponent {
   constructor() {

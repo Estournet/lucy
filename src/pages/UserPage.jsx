@@ -16,19 +16,19 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Typography } from '@material-ui/core';
-import Stats from '../components/Stats.jsx';
-import Parser from '../utils/Parser';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid/Grid';
-import Chart from '../components/Chart';
-import Paper from '@material-ui/core/Paper/Paper';
-import Toolbar from '@material-ui/core/Toolbar/Toolbar';
-import { Link, withRouter } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Slide from '@material-ui/core/Slide/Slide';
+import React from "react";
+import { Typography } from "@material-ui/core";
+import Stats from "../components/Stats.jsx";
+import Parser from "../utils/Parser";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid/Grid";
+import Chart from "../components/Chart";
+import Paper from "@material-ui/core/Paper/Paper";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import { Link, withRouter } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import Slide from "@material-ui/core/Slide/Slide";
 
 const UserPage = props => {
   const { conversationID, userName } = props.match.params;
@@ -46,8 +46,7 @@ const UserPage = props => {
                 <IconButton
                   className={props.classes.menuButton}
                   component={Link}
-                  to={encodeURI(`/${conversationID}`)}
-                >
+                  to={encodeURI(`/${conversationID}`)}>
                   <ArrowBackIcon />
                 </IconButton>
                 <div className={props.classes.flexContainer}>
@@ -58,8 +57,7 @@ const UserPage = props => {
                     <Typography
                       noWrap
                       variant="subtitle1"
-                      color="textSecondary"
-                    >
+                      color="textSecondary">
                       {conversationData.conversationName}
                     </Typography>
                   </div>
@@ -93,10 +91,10 @@ const UserPage = props => {
 
 const styles = theme => ({
   flexContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
     flexGrow: 1,
-    alignItems: 'center'
+    alignItems: "center"
   },
   flex: {
     flexGrow: 1

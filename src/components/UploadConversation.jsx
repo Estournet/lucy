@@ -16,12 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import Button from '@material-ui/core/Button/Button';
-import Typography from '@material-ui/core/Typography/Typography';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Parser from '../utils/Parser';
-import { Redirect } from 'react-router-dom';
+import React from "react";
+import Button from "@material-ui/core/Button/Button";
+import Typography from "@material-ui/core/Typography/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Parser from "../utils/Parser";
+import { Redirect } from "react-router-dom";
 
 class UploadConversation extends React.PureComponent {
   state = {
@@ -49,42 +49,48 @@ class UploadConversation extends React.PureComponent {
       return (
         <Redirect
           to={{
-            pathname: '/yay',
-            conversationData: this.state.json
+            pathname: "/scarlettjohansson", // We use this URL because \o/
+            conversationData: this.state.json,
+            allowed: true
           }}
         />
       );
     }
 
     return (
-      <label htmlFor="fileInput">
-        <input
-          accept="application/json"
-          className={classes.input}
-          id="fileInput"
-          multiple
-          type="file"
-          onChange={this.handleUploadChange}
-        />
-        <Button variant="contained" color="primary" fullWidth component="span">
-          Choisir un fichier
-        </Button>
+      <>
+        <label htmlFor="fileInput">
+          <input
+            accept="application/json"
+            className={classes.input}
+            id="fileInput"
+            multiple
+            type="file"
+            onChange={this.handleUploadChange}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            component="span">
+            Uploader un fichier
+          </Button>
+        </label>
         <Typography
           variant="overline"
           color="textSecondary"
           align="center"
-          className={classes.marginTop}
-        >
+          className={classes.marginTop}>
           Fichier de conversation Messenger (format JSON).
         </Typography>
-      </label>
+      </>
     );
   }
 }
 
 const styles = theme => ({
   input: {
-    display: 'none'
+    display: "none"
   },
   marginTop: {
     marginTop: theme.spacing.unit

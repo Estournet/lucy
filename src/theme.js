@@ -16,9 +16,9 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import pink from '@material-ui/core/colors/pink';
+import { createMuiTheme } from "@material-ui/core/styles";
+import purple from "@material-ui/core/colors/purple";
+import pink from "@material-ui/core/colors/pink";
 
 /**
  * Thème personnel
@@ -26,7 +26,8 @@ import pink from '@material-ui/core/colors/pink';
  */
 export const theme = createMuiTheme({
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    fontFamily: '"Google Sans", "Roboto"'
   },
   palette: {
     primary: {
@@ -35,7 +36,7 @@ export const theme = createMuiTheme({
     secondary: {
       main: pink[600]
     },
-    type: 'light'
+    type: "light"
   }
 });
 

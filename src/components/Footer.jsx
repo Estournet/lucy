@@ -16,8 +16,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Divider, Typography, withStyles } from '@material-ui/core';
+import React from "react";
+import { Divider, Typography, withStyles } from "@material-ui/core";
 
 class Footer extends React.PureComponent {
   render() {
@@ -29,13 +29,12 @@ class Footer extends React.PureComponent {
           Créé par Vincent M.
         </Typography>
         <Typography variant="caption" color="textSecondary" align="center">
-          {'Site sous license '}
+          {"Site sous license "}
           <a
             href="https://www.gnu.org/licenses/gpl-3.0.fr.html"
             rel="noopener noreferrer"
             target="_blank"
-            className={classes.link}
-          >
+            className={classes.link}>
             GNU GPL v3
           </a>
           .
@@ -45,8 +44,7 @@ class Footer extends React.PureComponent {
             href="https://github.com/Estournet/lucy"
             rel="noopener noreferrer"
             target="_blank"
-            className={classes.link}
-          >
+            className={classes.link}>
             Voir le projet sur GitHub
           </a>
           .
@@ -59,15 +57,15 @@ class Footer extends React.PureComponent {
 const styles = theme => ({
   footer: {
     backgroundColor: theme.palette.background.default,
-    padding: '20px 10%', // Top & Bottom : 20px, Left & Right : 10%
-    color: 'blue'
+    padding: "20px 10%", // Top & Bottom : 20px, Left & Right : 10%
+    color: "blue"
   },
   divider: {
     margin: theme.spacing.unit
   },
   link: {
     color: theme.palette.secondary.dark,
-    textDecoration: 'none'
+    textDecoration: "none"
   }
 });
 

@@ -16,6 +16,9 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import format from "date-fns/format";
+import { fr } from "date-fns/locale";
+
 export const formatNumber = nb => new Intl.NumberFormat().format(nb);
 
 /**
@@ -29,3 +32,8 @@ export const formatMap = map => {
   map.keys = Array.from(map.keys());
   map.values = Array.from(map.values());
 };
+
+export const formatFullDate = date =>
+  format(date, "eeee dd MMMM yyyy", { locale: fr });
+
+export const formatMMMYYDate = date => format(date, "MMM yy", { locale: fr });

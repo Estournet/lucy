@@ -16,17 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Grid, withStyles } from '@material-ui/core/';
-import Footer from './Footer.jsx';
-import AsyncContent from '../components/AsyncContent';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
-import Favicon from '../assets/logo.png';
-import Avatar from '@material-ui/core/Avatar/Avatar';
-import ErrorCatcher from './ErrorCatcher';
+import React from "react";
+import { Grid, withStyles } from "@material-ui/core/";
+import Footer from "./Footer.jsx";
+import AsyncContent from "../components/AsyncContent";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import Favicon from "../assets/logo.png";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import ErrorCatcher from "./ErrorCatcher";
 
 const Decoration = props => (
   <div className={props.classes.root}>
@@ -47,8 +47,7 @@ const Decoration = props => (
               component={Link}
               noWrap
               to="/"
-              className={props.classes.title}
-            >
+              className={props.classes.title}>
               Lucy – Messenger statistics
             </Typography>
           </Toolbar>
@@ -72,16 +71,16 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     zIndex: 1,
-    position: 'relative',
-    display: 'flex',
-    width: '100%'
+    position: "relative",
+    display: "flex",
+    width: "100%"
   },
   title: {
-    textDecoration: 'none'
+    textDecoration: "none"
   },
   flexContainer: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing.unit,
@@ -91,7 +90,7 @@ const styles = theme => ({
   content: {
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
-    minHeight: '100vh'
+    minHeight: "100vh"
   }
 });
 

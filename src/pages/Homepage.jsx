@@ -16,57 +16,60 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import { Typography } from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
-import Grid from '@material-ui/core/Grid/Grid';
-import Slide from '@material-ui/core/Slide/Slide';
-import conversations from '../conversations';
-import UploadConversation from '../components/UploadConversation.jsx';
-import EncryptedConversationCard from '../components/EncryptedConversationCard.jsx';
-import ConversationCard from '../components/ConversationCard.jsx';
+import React from "react";
+import { Typography } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Grid from "@material-ui/core/Grid/Grid";
+import Slide from "@material-ui/core/Slide/Slide";
+import conversations from "../conversations";
+import UploadConversation from "../components/UploadConversation.jsx";
+import EncryptedConversationCard from "../components/EncryptedConversationCard.jsx";
+import ConversationCard from "../components/ConversationCard.jsx";
+import LoginBackground from "../assets/background.png";
 
 const Homepage = props => (
   <Slide in direction="up" mountOnEnter unmountOnExit>
-    <div className={props.classes.content}>
-      <div className={props.classes.title}>
-        <Typography
-          variant="h2"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          Lucy
-        </Typography>
-        <Typography variant="h3" align="center" color="textPrimary">
-          Messenger statistics
-        </Typography>
-      </div>
-      <Grid container spacing={16}>
-        <Grid item xs={12}>
-          <UploadConversation />
+    <div className={props.classes.background}>
+      <div className={props.classes.content}>
+        <div className={props.classes.title}>
+          <Typography
+            variant="h2"
+            align="center"
+            color="textPrimary"
+            gutterBottom>
+            Lucy
+          </Typography>
+          <Typography variant="h4" align="center" color="textPrimary">
+            Messenger statistics
+          </Typography>
+        </div>
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
+            <UploadConversation />
+          </Grid>
+          {Object.keys(conversations)
+            .sort()
+            .map(
+              conversationID =>
+                conversations[conversationID].encrypted ? (
+                  <EncryptedConversationCard
+                    key={conversationID}
+                    conversationID={conversationID}
+                    displayName={conversations[conversationID].displayName}
+                    subtitle={conversations[conversationID].subtitle}
+                    filePath={conversations[conversationID].filePath}
+                  />
+                ) : (
+                  <ConversationCard
+                    key={conversationID}
+                    conversationID={conversationID}
+                    displayName={conversations[conversationID].displayName}
+                    subtitle={conversations[conversationID].subtitle}
+                  />
+                )
+            )}
         </Grid>
-        {Object.keys(conversations)
-          .sort()
-          .map(
-            conversationID =>
-              conversations[conversationID].encrypted ? (
-                <EncryptedConversationCard
-                  key={conversationID}
-                  conversationID={conversationID}
-                  displayName={conversations[conversationID].displayName}
-                  subtitle={conversations[conversationID].subtitle}
-                />
-              ) : (
-                <ConversationCard
-                  key={conversationID}
-                  conversationID={conversationID}
-                  displayName={conversations[conversationID].displayName}
-                  subtitle={conversations[conversationID].subtitle}
-                />
-              )
-          )}
-      </Grid>
+      </div>
     </div>
   </Slide>
 );
@@ -75,10 +78,19 @@ const styles = theme => ({
   title: {
     paddingBottom: theme.spacing.unit * 4
   },
+  background: {
+    backgroundImage: `url('${LoginBackground}')`,
+    backgroundSize: "cover",
+    width: "100vw",
+    minHeight: "100vh",
+    alignItems: "center",
+    display: "flex"
+  },
   content: {
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-    minHeight: '100vh'
+    backgroundColor: "rgba(255, 255, 255, 0.85); ",
+    borderRadius: 5,
+    padding: theme.spacing.unit * 2,
+    margin: theme.spacing.unit * 2
   }
 });
 

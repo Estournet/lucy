@@ -16,15 +16,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid/Grid';
-import Typography from '@material-ui/core/Typography/Typography';
-import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton/IconButton';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import withStyle from '@material-ui/core/styles/withStyles';
-import Paper from '@material-ui/core/Paper/Paper';
+import React from "react";
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
+import { Link } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import withStyle from "@material-ui/core/styles/withStyles";
+import Paper from "@material-ui/core/Paper/Paper";
 
 const Members = props => (
   <Grid container spacing={16}>
@@ -45,8 +45,7 @@ const Members = props => (
                 className={props.classes.icon}
                 size="small"
                 component={Link}
-                to={encodeURI(`/${props.conversationID}/${userName}`)}
-              >
+                to={encodeURI(`/${props.conversationID}/${userName}`)}>
                 <ChevronRightIcon />
               </IconButton>
             </div>
@@ -59,10 +58,10 @@ const Members = props => (
 
 const styles = theme => ({
   flexContainer: {
-    display: 'flex',
-    flexWrap: 'nowrap',
+    display: "flex",
+    flexWrap: "nowrap",
     flexGrow: 1,
-    alignItems: 'center'
+    alignItems: "center"
   },
   flex: {
     flexGrow: 1

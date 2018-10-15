@@ -16,17 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { MuiThemeProvider } from '@material-ui/core';
-import theme from './theme';
-import Decoration from './components/Decoration';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Homepage from './pages/Homepage';
+import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { MuiThemeProvider } from "@material-ui/core";
+import theme from "./theme";
+import Decoration from "./components/Decoration";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Homepage from "./pages/Homepage";
 
 const App = () => (
   <BrowserRouter>
-    <React.Fragment>
+    <>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
         <Switch>
@@ -34,7 +34,7 @@ const App = () => (
           <Route path="/" render={() => <Decoration />} />
         </Switch>
       </MuiThemeProvider>
-    </React.Fragment>
+    </>
   </BrowserRouter>
 );
 
