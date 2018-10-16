@@ -109,8 +109,8 @@ class Parser {
   static parseStaticFile = route => {
     if (conversations[route]) {
       try {
-        const { filePath } = conversations[route];
-        const jsonFile = require(`../input/${filePath}`);
+        const { fileName } = conversations[route];
+        const jsonFile = require(`../input/${fileName}`);
         if (jsonFile) conversationsData[route] = Parser.parseJSON(jsonFile);
       } catch (e) {
         throw Error("Fichier non trouvé");

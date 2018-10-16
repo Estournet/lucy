@@ -51,7 +51,7 @@ class EncryptedConversationCard extends React.PureComponent {
    */
   decrypt = event => {
     event.preventDefault();
-    const jsonFile = require(`../input/${this.props.filePath}`);
+    const jsonFile = require(`../input/${this.props.fileName}`);
     fetch(jsonFile)
       .then(res => res.blob())
       .then(blob => {
@@ -79,22 +79,6 @@ class EncryptedConversationCard extends React.PureComponent {
           }
         });
       });
-  };
-
-  /**
-   * Uses AES 256 CBC to encrypt
-   */
-  encrypt = () => {
-    console.log("Start encryption");
-    const textToEncrypt = '{"field1": "hello","field2": "world"}';
-    // const textToEncrypt = JSON.stringify(test);
-    const password = "myVerySecurePassword";
-    const encryptedText = CryptoJS.AES.encrypt(textToEncrypt, password, {
-      mode: CryptoJS.mode.CBC
-    });
-    console.log("Encrypted text");
-    console.log(encryptedText.toString());
-    console.log("End encryption");
   };
 
   showPasswordField = () => this.setState({ showPasswordField: true });
@@ -218,7 +202,7 @@ EncryptedConversationCard.propTypes = {
   classes: PropTypes.object.isRequired,
   displayName: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
-  filePath: PropTypes.string.isRequired
+  fileName: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(EncryptedConversationCard);

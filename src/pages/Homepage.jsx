@@ -57,7 +57,7 @@ const Homepage = props => (
                     conversationID={conversationID}
                     displayName={conversations[conversationID].displayName}
                     subtitle={conversations[conversationID].subtitle}
-                    filePath={conversations[conversationID].filePath}
+                    fileName={conversations[conversationID].fileName}
                   />
                 ) : (
                   <ConversationCard
