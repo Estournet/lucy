@@ -26,6 +26,7 @@ import UploadConversation from "../components/UploadConversation.jsx";
 import EncryptedConversationCard from "../components/EncryptedConversationCard.jsx";
 import ConversationCard from "../components/ConversationCard.jsx";
 import LoginBackground from "../assets/background.png";
+import Footer from "../components/Footer";
 
 const Homepage = props => (
   <Slide in direction="up" mountOnEnter unmountOnExit>
@@ -68,6 +69,9 @@ const Homepage = props => (
                   />
                 )
             )}
+          <Grid item xs={12}>
+            <Footer />
+          </Grid>
         </Grid>
       </div>
     </div>
@@ -83,8 +87,8 @@ const styles = theme => ({
     backgroundSize: "cover",
     width: "100vw",
     minHeight: "100vh",
-    alignItems: "center",
-    display: "flex"
+    display: "flex",
+    alignItems: "center"
   },
   content: {
     backgroundColor: "rgba(255, 255, 255, 0.85); ",

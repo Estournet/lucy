@@ -82,6 +82,7 @@ class EncryptPage extends React.PureComponent {
   render() {
     const { textToEncrypt, encryptedText, password } = this.state;
     const { classes } = this.props;
+
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
         <div>

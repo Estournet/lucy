@@ -18,6 +18,7 @@
 
 import React from "react";
 import { Divider, Typography, withStyles } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 class Footer extends React.PureComponent {
   render() {
@@ -37,17 +38,24 @@ class Footer extends React.PureComponent {
             className={classes.link}>
             GNU GPL v3
           </a>
-          .
-        </Typography>
-        <Typography variant="caption" color="textSecondary" align="center">
+          {". Voir le projet sur "}
           <a
             href="https://github.com/Estournet/lucy"
             rel="noopener noreferrer"
             target="_blank"
             className={classes.link}>
-            Voir le projet sur GitHub
+            GitHub
           </a>
           .
+        </Typography>
+        <Typography
+          className={classes.link}
+          variant="caption"
+          color="textSecondary"
+          align="center"
+          component={Link}
+          to={"/howto"}>
+          Comment utiliser le site ?
         </Typography>
       </footer>
     );
@@ -56,7 +64,6 @@ class Footer extends React.PureComponent {
 
 const styles = theme => ({
   footer: {
-    backgroundColor: theme.palette.background.default,
     padding: "20px 10%", // Top & Bottom : 20px, Left & Right : 10%
     color: "blue"
   },

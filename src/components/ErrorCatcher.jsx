@@ -27,7 +27,7 @@ class ErrorCatcher extends React.PureComponent {
 
   componentDidCatch(error, info) {
     this.setState({ hasError: true, error });
-    console.error(error, info); // TODO Remove for "release"
+    if (process.env.NODE_ENV === "production") console.error(error, info);
   }
 
   render() {

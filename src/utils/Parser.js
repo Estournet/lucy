@@ -107,14 +107,12 @@ class Parser {
   static parsePlainText = plainText => Parser.parseJSON(JSON.parse(plainText));
 
   static parseStaticFile = route => {
-    if (conversations[route]) {
-      try {
-        const { fileName } = conversations[route];
-        const jsonFile = require(`../input/${fileName}`);
-        if (jsonFile) conversationsData[route] = Parser.parseJSON(jsonFile);
-      } catch (e) {
-        throw Error("Fichier non trouvé");
-      }
+    try {
+      const { fileName } = conversations[route];
+      const jsonFile = require(`../input/${fileName}`);
+      if (jsonFile) conversationsData[route] = Parser.parseJSON(jsonFile);
+    } catch (e) {
+      throw Error("Fichier non trouvé");
     }
   };
 
@@ -152,8 +150,7 @@ class Parser {
       formatMap(conversationData.charCountPerUser);
       return conversationData;
     } catch (e) {
-      console.error(e);
-      throw Error("Fichier mal formé"); // TODO Mettre des messages plus explicites
+      throw new Error("Fichier mal formé"); // TODO Mettre des messages plus explicites
     }
   };
 

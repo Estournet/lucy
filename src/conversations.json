@@ -1,21 +1,9 @@
 {
-  "LeClubPetanque_ccc590160a": {
-    "fileName": "ClubPetanque.json",
-    "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
-    "conversationID": "LeClubPetanque_ccc590160a"
-  },
-  "LeClubPetanque_ccc590160aTest": {
-    "fileName": "test.json",
-    "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090 (Test)",
-    "subtitle": "Fichier de test",
-    "conversationID": "LeClubPetanque_ccc590160aTest"
-  },
-  "test-AES-256-CBC.enc": {
-    "fileName": "test.enc",
-    "displayName": "Conversation chiffr\u00c3\u00a9e de test",
-    "conversationID": "test-AES-256-CBC.enc",
-    "subtitle": "test",
-    "encrypted": true
+  "PokemonRedVersion_058807830b": {
+    "fileName": "testFile.json",
+    "displayName": "Pokemon Version Rouge",
+    "subtitle": "Test file",
+    "conversationID": "PokemonRedVersion_058807830b"
   },
   "Lagoon.enc": {
     "fileName": "Lagoon.enc",
@@ -23,14 +11,14 @@
     "subtitle": "Conversation Lagoon",
     "encrypted": true
   },
-  "Leau_f8c128234b": {
-    "fileName": "Lagoon.json",
-    "displayName": "L'eau \u00f0\u009f\u0092\u00a7",
-    "conversationID": "Leau_f8c128234b"
+  "21.enc": {
+    "fileName": "21.enc",
+    "displayName": "21",
+    "encrypted": true
   },
-  "QuiVeutLaPeauDmonCrew21SQUAD_058807830b": {
-    "fileName": "21.json",
-    "displayName": "Qui Veut La Peau D'mon Crew ? 21SQUAD \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
-    "conversationID": "QuiVeutLaPeauDmonCrew21SQUAD_058807830b"
+  "LeClubPetanque.enc": {
+    "fileName": "LeClubPetanque.enc",
+    "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
+    "encrypted": true
   }
 }

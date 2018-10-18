@@ -56,7 +56,7 @@ class ConversationPage extends React.PureComponent {
     if (location.pathname === "/scarlettjohansson" && !location.allowed)
       return <Redirect to="/" />;
 
-    if (!conversationData) return "LOADING"; //TODO
+    if (!conversationData) return "";
 
     return (
       <Slide in direction="up" mountOnEnter unmountOnExit>
