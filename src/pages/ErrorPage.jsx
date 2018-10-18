@@ -17,9 +17,12 @@
  */
 
 import React from "react";
-import { Button, Grid, Typography, withStyles } from "@material-ui/core/";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid/Grid";
+import Typography from "@material-ui/core/Typography/Typography";
+import Button from "@material-ui/core/Button/Button";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const ErrorPage = props => (
   <Grid

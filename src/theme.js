@@ -16,9 +16,9 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createMuiTheme } from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 import pink from "@material-ui/core/colors/pink";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 /**
  * Thème personnel

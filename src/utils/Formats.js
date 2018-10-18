@@ -18,6 +18,7 @@
 
 import format from "date-fns/format";
 import { fr } from "date-fns/locale";
+import formatDistance from "date-fns/formatDistance";
 
 export const formatNumber = nb => new Intl.NumberFormat().format(nb);
 
@@ -33,7 +34,15 @@ export const formatMap = map => {
   map.values = Array.from(map.values());
 };
 
+export const formatMapReverse = map => {
+  map.keys = Array.from(map.keys()).reverse();
+  map.values = Array.from(map.values()).reverse();
+};
+
 export const formatFullDate = date =>
   format(date, "eeee dd MMMM yyyy", { locale: fr });
+
+export const formatDuration = (date1, date2) =>
+  formatDistance(date1, date2, { locale: fr });
 
 export const formatMMMYYDate = date => format(date, "MMM yy", { locale: fr });

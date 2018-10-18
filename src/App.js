@@ -18,14 +18,14 @@
 
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { MuiThemeProvider } from "@material-ui/core";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import theme from "./theme";
 import Decoration from "./components/Decoration";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.NODE_ENV === "production" ? "lucy" : ""}>
     <>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>

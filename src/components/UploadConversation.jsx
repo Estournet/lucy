@@ -32,10 +32,18 @@ class UploadConversation extends React.PureComponent {
     e.preventDefault();
     const reader = new FileReader();
     const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
+    if (
+      uploadedFile &&
+      uploadedFile.name
+        .split(".")
+        .pop()
+        .toLowerCase() === "json"
+    ) {
       reader.onloadend = () => {
+        const conversationData = Parser.parsePlainText(reader.result);
         this.setState({
-          json: Parser.parsePlainText(reader.result),
+          conversationData,
+          conversationID: conversationData.conversationID,
           redirect: true
         });
       };
@@ -45,13 +53,14 @@ class UploadConversation extends React.PureComponent {
 
   render() {
     const { classes } = this.props;
-    if (this.state.redirect) {
+    const { redirect, conversationData, conversationID } = this.state;
+
+    if (redirect) {
       return (
         <Redirect
           to={{
-            pathname: "/scarlettjohansson", // We use this URL because \o/
-            conversationData: this.state.json,
-            allowed: true
+            pathname: encodeURI(`/${conversationID}`),
+            conversationData
           }}
         />
       );
@@ -70,7 +79,7 @@ class UploadConversation extends React.PureComponent {
           />
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             fullWidth
             component="span">
             Uploader un fichier

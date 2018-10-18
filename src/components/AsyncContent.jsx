@@ -20,6 +20,9 @@ import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import asyncComponent from "./AsyncComponent.jsx";
 
+const AsyncScarlettJohanssonPage = asyncComponent(() =>
+  import("../pages/ScarlettJohanssonPage.jsx")
+);
 const AsyncUserPage = asyncComponent(() => import("../pages/UserPage.jsx"));
 const AsyncHowToPage = asyncComponent(() => import("../pages/HowToPage.jsx"));
 const AsyncEncryptPage = asyncComponent(() =>
@@ -41,8 +44,8 @@ const AsyncContent = () => (
   <Switch>
     <Route
       exact
-      path="/scarlettjohansson" // We use this URL because \o/
-      render={newProps => <AsyncConversationPage {...newProps} />}
+      path="/scarlettjohansson"
+      render={newProps => <AsyncScarlettJohanssonPage {...newProps} />}
     />
     <Route
       exact

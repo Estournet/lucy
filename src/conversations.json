@@ -2,23 +2,26 @@
   "PokemonRedVersion_058807830b": {
     "fileName": "testFile.json",
     "displayName": "Pokemon Version Rouge",
-    "subtitle": "Test file",
+    "subtitle": "Fichier de test",
     "conversationID": "PokemonRedVersion_058807830b"
   },
-  "Lagoon.enc": {
+  "Leau_f8c128234b": {
     "fileName": "Lagoon.enc",
     "displayName": "L'eau \u00f0\u009f\u0092\u00a7",
     "subtitle": "Conversation Lagoon",
+    "conversationID": "Leau_f8c128234b",
     "encrypted": true
   },
-  "21.enc": {
+  "QuiVeutLaPeauDmonCrew21SQUAD_058807830b": {
     "fileName": "21.enc",
     "displayName": "21",
+    "conversationID": "QuiVeutLaPeauDmonCrew21SQUAD_058807830b",
     "encrypted": true
   },
-  "LeClubPetanque.enc": {
+  "LeClubPetanque_ccc590160a": {
     "fileName": "LeClubPetanque.enc",
     "displayName": "Le Club P\u00c3\u00a9tanque \u00e2\u00ad\u0090\u00e2\u00ad\u0090",
+    "conversationID": "LeClubPetanque_ccc590160a",
     "encrypted": true
   }
 }

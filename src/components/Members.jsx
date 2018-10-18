@@ -20,7 +20,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import withStyle from "@material-ui/core/styles/withStyles";
@@ -30,29 +30,49 @@ const Members = props => (
   <Grid container spacing={16}>
     <Grid item xs={12}>
       <Typography variant="h5">
-        Membres de la conversation ({props.usersName.length})
+        Membres de la conversation ({props.users.length})
       </Typography>
     </Grid>
-    {props.usersName.sort().map(userName => (
-      <Grid item xs={6} sm={4} md={3} lg={2} xl={1} key={userName}>
-        <Paper className={props.classes.paper}>
-          <div className={props.classes.flexContainer}>
-            <div className={props.classes.flex}>
-              <Typography variant="subtitle2">{userName}</Typography>
+    {props.users
+      .sort((u1, u2) => u1.userName.localeCompare(u2.userName))
+      .map(user => (
+        <Grid item xs={6} sm={4} md={3} lg={2} xl={1} key={user.userName}>
+          <Paper className={props.classes.paper}>
+            <div className={props.classes.flexContainer}>
+              <div className={props.classes.flex}>
+                <Typography
+                  variant="subtitle2"
+                  component={Link}
+                  to={{
+                    pathname: encodeURI(
+                      `${props.location.pathname}/${user.userName}`
+                    ),
+                    conversationData: props.conversationData,
+                    user
+                  }}
+                  className={props.classes.textDecorationNone}>
+                  {user.userName}
+                </Typography>
+              </div>
+              <div>
+                <IconButton
+                  className={props.classes.icon}
+                  size="small"
+                  component={Link}
+                  to={{
+                    pathname: encodeURI(
+                      `${props.location.pathname}/${user.userName}`
+                    ),
+                    conversationData: props.conversationData,
+                    user
+                  }}>
+                  <ChevronRightIcon />
+                </IconButton>
+              </div>
             </div>
-            <div>
-              <IconButton
-                className={props.classes.icon}
-                size="small"
-                component={Link}
-                to={encodeURI(`/${props.conversationID}/${userName}`)}>
-                <ChevronRightIcon />
-              </IconButton>
-            </div>
-          </div>
-        </Paper>
-      </Grid>
-    ))}
+          </Paper>
+        </Grid>
+      ))}
   </Grid>
 );
 
@@ -71,6 +91,9 @@ const styles = theme => ({
   },
   icon: {
     marginLeft: theme.spacing.unit
+  },
+  textDecorationNone: {
+    textDecoration: "none"
   }
 });
 
@@ -80,7 +103,7 @@ Members.defaultProps = {
 
 Members.propTypes = {
   conversationID: PropTypes.string.isRequired,
-  usersName: PropTypes.arrayOf(PropTypes.string)
+  users: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default withStyle(styles)(Members);
+export default withStyle(styles)(withRouter(Members));

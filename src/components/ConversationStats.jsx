@@ -24,12 +24,24 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import InlinedText from "./InlinedText";
 
-const Stats = props => {
+const ConversationStats = props => {
   return (
     <Paper className={props.classes.paper}>
       <Typography variant="h6" align="left" gutterBottom>
         Statistiques
       </Typography>
+      <InlinedText
+        leftText="Date du premier message"
+        rightText={props.firstMessageDate}
+      />
+      <InlinedText
+        leftText="Date du dernier message"
+        rightText={props.lastMessageDate}
+      />
+      <InlinedText
+        leftText="Durée de la conversation"
+        rightText={props.conversationDuration}
+      />
       <InlinedText
         leftText="Nombre total de messages"
         rightText={formatNumber(props.totalMessages)}
@@ -39,8 +51,20 @@ const Stats = props => {
         rightText={formatNumber(props.totalChars)}
       />
       <InlinedText
-        leftText="Date du premier message"
-        rightText={props.firstMessageDate}
+        leftText="Nombre de photos envoyées"
+        rightText={props.totalPhotos}
+      />
+      <InlinedText
+        leftText="Nombre de vidéos envoyées"
+        rightText={props.totalVideos}
+      />
+      <InlinedText
+        leftText="Nombre de liens envoyés"
+        rightText={props.totalShares}
+      />
+      <InlinedText
+        leftText="Nombre de stickers envoyés"
+        rightText={props.totalStickers}
       />
     </Paper>
   );
@@ -53,11 +77,17 @@ const styles = theme => ({
   })
 });
 
-Stats.propTypes = {
+ConversationStats.propTypes = {
   classes: PropTypes.object.isRequired,
   totalMessages: PropTypes.number.isRequired,
   totalChars: PropTypes.number.isRequired,
-  firstMessageDate: PropTypes.string.isRequired
+  totalPhotos: PropTypes.number.isRequired,
+  totalStickers: PropTypes.number.isRequired,
+  totalVideos: PropTypes.number.isRequired,
+  totalShares: PropTypes.number.isRequired,
+  firstMessageDate: PropTypes.string.isRequired,
+  lastMessageDate: PropTypes.string.isRequired,
+  conversationDuration: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(Stats);
+export default withStyles(styles)(ConversationStats);

@@ -3,6 +3,8 @@
 Ce dépôt contient les sources pour le site Lucy. Il s'agit de statistiques basiques sur les conversations Facebook Messenger.
 Ce site est uniquement côté client, aucune donnée n'est envoyée à un quelconque serveur, tout est fait localement, sur la machine de l'utilisateur.
 
+Vous pouvez voir une démonstration du site ici : [https://estournet.github.io/lucy/](https://estournet.github.io/lucy/)
+
 ## Installation
 
     git clone https://github.com/Estournet/lucy.git

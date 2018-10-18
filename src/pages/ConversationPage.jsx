@@ -17,19 +17,19 @@
  */
 
 import React from "react";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
 import Parser from "../utils/Parser";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid/Grid";
 import Chart from "../components/Chart";
 import Members from "../components/Members";
 import Slide from "@material-ui/core/Slide/Slide";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Paper from "@material-ui/core/Paper/Paper";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import Stats from "../components/Stats";
+import ConversationStats from "../components/ConversationStats.jsx";
 
 class ConversationPage extends React.PureComponent {
   state = {
@@ -51,10 +51,7 @@ class ConversationPage extends React.PureComponent {
 
   render() {
     const { conversationData } = this.state;
-    const { location, classes } = this.props;
-
-    if (location.pathname === "/scarlettjohansson" && !location.allowed)
-      return <Redirect to="/" />;
+    const { classes } = this.props;
 
     if (!conversationData) return "";
 
@@ -83,15 +80,22 @@ class ConversationPage extends React.PureComponent {
             </Grid>
             <Grid item xs={12}>
               <Members
-                usersName={conversationData.users.map(user => user.userName)}
+                users={conversationData.users}
                 conversationID={conversationData.conversationID}
+                conversationData={conversationData}
               />
             </Grid>
             <Grid item xs={12}>
-              <Stats
+              <ConversationStats
                 totalMessages={conversationData.totalMessages}
                 totalChars={conversationData.totalChars}
                 firstMessageDate={conversationData.firstMessageDate}
+                lastMessageDate={conversationData.lastMessageDate}
+                conversationDuration={conversationData.conversationDuration}
+                totalPhotos={conversationData.totalPhotos}
+                totalStickers={conversationData.totalStickers}
+                totalVideos={conversationData.totalVideos}
+                totalShares={conversationData.totalShares}
               />
             </Grid>
             <Grid item xs={12}>

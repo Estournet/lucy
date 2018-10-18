@@ -17,8 +17,10 @@
  */
 
 import React from "react";
-import { Divider, Typography, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography/Typography";
+import Divider from "@material-ui/core/Divider/Divider";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 class Footer extends React.PureComponent {
   render() {

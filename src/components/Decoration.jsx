@@ -17,7 +17,6 @@
  */
 
 import React from "react";
-import { Grid, withStyles } from "@material-ui/core/";
 import Footer from "./Footer.jsx";
 import AsyncContent from "../components/AsyncContent";
 import AppBar from "@material-ui/core/AppBar";
@@ -27,6 +26,8 @@ import { Link } from "react-router-dom";
 import Favicon from "../assets/logo.png";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import ErrorCatcher from "./ErrorCatcher";
+import Grid from "@material-ui/core/Grid/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const Decoration = props => (
   <div className={props.classes.root}>

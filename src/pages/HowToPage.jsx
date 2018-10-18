@@ -17,13 +17,12 @@
  */
 
 import React from "react";
-import { Typography } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
+import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import Slide from "@material-ui/core/Slide/Slide";
 import { Link } from "react-router-dom";
 
-const HowToPage = props => (
+const HowToPage = () => (
   <Slide in direction="up" mountOnEnter unmountOnExit>
     <div>
       <Grid container spacing={32}>
@@ -69,9 +68,7 @@ const HowToPage = props => (
   </Slide>
 );
 
-const styles = theme => ({});
-
 // As we import pages asynchroneously, the IDE thinks the component is unused.
 // See AsyncComponent.jsx and AsyncContent.jsx for more details
 // noinspection JSUnusedGlobalSymbols
-export default withStyles(styles)(HowToPage);
+export default HowToPage;

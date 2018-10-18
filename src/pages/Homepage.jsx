@@ -17,19 +17,20 @@
  */
 
 import React from "react";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid/Grid";
-import Slide from "@material-ui/core/Slide/Slide";
+import Grow from "@material-ui/core/Grow/Grow";
 import conversations from "../conversations";
 import UploadConversation from "../components/UploadConversation.jsx";
 import EncryptedConversationCard from "../components/EncryptedConversationCard.jsx";
 import ConversationCard from "../components/ConversationCard.jsx";
 import LoginBackground from "../assets/background.png";
 import Footer from "../components/Footer";
+import PropTypes from "prop-types";
 
 const Homepage = props => (
-  <Slide in direction="up" mountOnEnter unmountOnExit>
+  <Grow in direction="up" mountOnEnter unmountOnExit>
     <div className={props.classes.background}>
       <div className={props.classes.content}>
         <div className={props.classes.title}>
@@ -75,7 +76,7 @@ const Homepage = props => (
         </Grid>
       </div>
     </div>
-  </Slide>
+  </Grow>
 );
 
 const styles = theme => ({
@@ -97,6 +98,10 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2
   }
 });
+
+Homepage.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 // As we import pages asynchroneously, the IDE thinks the component is unused.
 // See AsyncComponent.jsx and AsyncContent.jsx for more details

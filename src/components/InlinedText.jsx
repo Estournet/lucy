@@ -29,10 +29,14 @@ class InlinedText extends React.PureComponent {
         <Typography
           align={align}
           variant="subtitle2"
-          className={classes.paddingRight}>
-          {`${leftText} :`}
+          className={classes.leftText}>
+          {leftText}
+          &nbsp;:
         </Typography>
-        <Typography align={align} variant="subtitle1">
+        <Typography
+          align={align}
+          variant="subtitle1"
+          className={classes.rightText}>
           {rightText}
         </Typography>
       </div>
@@ -46,8 +50,12 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "flex-start"
   },
-  paddingRight: {
+  leftText: {
+    flexShrink: 1,
     paddingRight: theme.spacing.unit
+  },
+  rightText: {
+    flexShrink: 2
   }
 });
 

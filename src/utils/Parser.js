@@ -18,8 +18,10 @@
 
 import {
   convertUnicode,
+  formatDuration,
   formatFullDate,
   formatMap,
+  formatMapReverse,
   formatMMMYYDate
 } from "./Formats";
 import conversations from "../conversations.json";
@@ -77,6 +79,26 @@ class Parser {
     if (content) data.totalChars += content.length;
   };
 
+  static setTotalPhotos = (message, data) => {
+    const { photos } = message;
+    if (photos) data.totalPhotos += photos.length;
+  };
+
+  static setTotalStickers = (message, data) => {
+    const { sticker } = message;
+    if (sticker) data.totalStickers += 1;
+  };
+
+  static setTotalVideos = (message, data) => {
+    const { videos } = message;
+    if (videos) data.totalVideos += videos.length;
+  };
+
+  static setTotalShares = (message, data) => {
+    const { share } = message;
+    if (share) data.totalShares += 1;
+  };
+
   static setMessagesPerMonth = (message, map) => {
     const date = new Date(message.timestamp_ms);
     const key = formatMMMYYDate(date);
@@ -104,7 +126,22 @@ class Parser {
     totalChars: 0
   });
 
-  static parsePlainText = plainText => Parser.parseJSON(JSON.parse(plainText));
+  static checkErrors = json => {
+    if (!json) throw new Error("Fichier non trouvé");
+    if (
+      !json.participants ||
+      !json.messages ||
+      !json.title ||
+      !json.is_still_participant ||
+      !json.thread_type ||
+      !json.thread_path
+    )
+      throw new Error("Fichier mal formé");
+  };
+
+  static parsePlainText = plainText => {
+    return Parser.parseJSON(JSON.parse(plainText));
+  };
 
   static parseStaticFile = route => {
     try {
@@ -117,41 +154,56 @@ class Parser {
   };
 
   static parseJSON = json => {
-    try {
-      const conversationData = {};
-      conversationData.conversationName = convertUnicode(json.title);
-      conversationData.conversationID = convertUnicode(json.thread_path);
-      conversationData.firstMessageDate = formatFullDate(
-        new Date(json.messages[json.messages.length - 1].timestamp_ms)
-      );
-      conversationData.messageCountPerUser = new Map();
-      conversationData.charCountPerUser = new Map();
-      conversationData.totalChars = 0;
-      conversationData.totalMessages = json.messages.length;
-      conversationData.messagesPerMonth = new Map();
-      conversationData.users = json.participants.map(participant =>
-        Parser.defaultUser(participant.name)
-      );
+    Parser.checkErrors(json);
+    const conversationData = {};
+    conversationData.conversationName = convertUnicode(json.title);
+    conversationData.conversationID = convertUnicode(json.thread_path);
+    conversationData.firstMessageDate = formatFullDate(
+      new Date(json.messages[json.messages.length - 1].timestamp_ms)
+    );
+    conversationData.lastMessageDate = formatFullDate(
+      new Date(json.messages[0].timestamp_ms)
+    );
+    conversationData.conversationDuration = formatDuration(
+      new Date(json.messages[0].timestamp_ms),
+      new Date(json.messages[json.messages.length - 1].timestamp_ms)
+    );
+    conversationData.messageCountPerUser = new Map();
+    conversationData.charCountPerUser = new Map();
+    conversationData.totalMessages = json.messages.length;
+    conversationData.totalChars = 0;
+    conversationData.totalPhotos = 0;
+    conversationData.totalStickers = 0;
+    conversationData.totalVideos = 0;
+    conversationData.totalShares = 0;
+    conversationData.messagesPerMonth = new Map();
 
-      json.messages.forEach(message => {
-        Parser.setMessageCountPerUser(
-          message,
-          conversationData.messageCountPerUser
-        );
-        Parser.setCharCountPerUser(message, conversationData.charCountPerUser);
-        Parser.setTotalChars(message, conversationData);
-        Parser.setMessagesPerMonth(message, conversationData.messagesPerMonth);
-        Parser.setUserData(message, conversationData.users);
-      });
+    conversationData.users = json.participants.map(participant =>
+      Parser.defaultUser(participant.name)
+    );
 
-      conversationData.users.forEach(user => formatMap(user.messagesPerMonth));
-      formatMap(conversationData.messagesPerMonth);
-      formatMap(conversationData.messageCountPerUser);
-      formatMap(conversationData.charCountPerUser);
-      return conversationData;
-    } catch (e) {
-      throw new Error("Fichier mal formé"); // TODO Mettre des messages plus explicites
-    }
+    /* The big loop */
+    json.messages.forEach(message => {
+      Parser.setMessageCountPerUser(
+        message,
+        conversationData.messageCountPerUser
+      );
+      Parser.setCharCountPerUser(message, conversationData.charCountPerUser);
+      Parser.setTotalChars(message, conversationData);
+      Parser.setMessagesPerMonth(message, conversationData.messagesPerMonth);
+      Parser.setUserData(message, conversationData.users);
+      Parser.setTotalPhotos(message, conversationData);
+      Parser.setTotalStickers(message, conversationData);
+      Parser.setTotalVideos(message, conversationData);
+      Parser.setTotalShares(message, conversationData);
+    });
+    conversationData.users.forEach(user =>
+      formatMapReverse(user.messagesPerMonth)
+    );
+    formatMapReverse(conversationData.messagesPerMonth);
+    formatMap(conversationData.messageCountPerUser);
+    formatMap(conversationData.charCountPerUser);
+    return conversationData;
   };
 
   static getConversationData(route) {

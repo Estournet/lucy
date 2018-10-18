@@ -17,7 +17,7 @@
  */
 
 import React from "react";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
@@ -68,10 +68,12 @@ class EncryptedConversationCard extends React.PureComponent {
             if (!plainText) {
               this.setState({ wrongPassword: true });
             } else {
+              const conversationData = Parser.parsePlainText(plainText);
               this.setState({
                 wrongPassword: false,
                 redirect: true,
-                json: Parser.parsePlainText(plainText)
+                conversationData,
+                conversationName: conversationData.conversationName
               });
             }
           } catch (e) {
@@ -87,35 +89,40 @@ class EncryptedConversationCard extends React.PureComponent {
     this.setState({ passwordInput: event.target.value });
 
   render() {
-    const { state, props } = this;
-    if (state.redirect) {
+    const {
+      redirect,
+      showPasswordField,
+      passwordInput,
+      wrongPassword,
+      conversationData
+    } = this.state;
+    const { classes, conversationID, displayName, subtitle } = this.props;
+
+    if (redirect) {
       return (
         <Redirect
           to={{
-            pathname: "/scarlettjohansson", // We use this URL because \o/
-            conversationData: this.state.json,
-            allowed: true
+            pathname: encodeURI(`/${conversationID}`),
+            conversationData
           }}
         />
       );
     }
     return (
       <>
-        <Grid item xs={12} sm={6} lg={3} xl={2} key={props.conversationID}>
-          <Paper
-            className={props.classes.paper}
-            onClick={this.showPasswordField}>
-            <div className={props.classes.flexContainer}>
-              <LockIcon size="small" className={props.classes.iconRight} />
-              <div className={props.classes.flex}>
+        <Grid item xs={12} sm={6} lg={3} xl={2} key={conversationID}>
+          <Paper className={classes.paper} onClick={this.showPasswordField}>
+            <div className={classes.flexContainer}>
+              <LockIcon size="small" className={classes.iconRight} />
+              <div className={classes.flex}>
                 <Typography variant="subtitle1">
-                  {convertUnicode(props.displayName)}
+                  {convertUnicode(displayName)}
                 </Typography>
                 <Typography variant="subtitle2">
-                  {convertUnicode(props.subtitle)}
+                  {convertUnicode(subtitle)}
                 </Typography>
               </div>
-              <IconButton size="small" className={props.classes.iconLeft}>
+              <IconButton size="small" className={classes.iconLeft}>
                 <ChevronRightIcon />
               </IconButton>
             </div>
@@ -124,7 +131,8 @@ class EncryptedConversationCard extends React.PureComponent {
         <Dialog
           TransitionComponent={Transition}
           keepMounted
-          open={state.showPasswordField}
+          scroll="body"
+          open={showPasswordField}
           onClose={this.hidePasswordField}>
           <form onSubmit={this.decrypt}>
             <DialogTitle id="form-dialog-title">
@@ -142,22 +150,26 @@ class EncryptedConversationCard extends React.PureComponent {
                 label="Mot de passe"
                 fullWidth
                 required
-                value={state.passwordInput}
+                value={passwordInput}
                 onChange={this.handlePasswordInputChange}
-                error={state.wrongPassword}
+                error={wrongPassword}
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.hidePasswordField} color="primary">
+              <Button
+                onClick={this.hidePasswordField}
+                color="primary"
+                size="small">
                 Annuler
               </Button>
               <Button
                 onClick={this.decrypt}
                 variant="contained"
                 color="primary"
-                disabled={state.passwordInput.length < 1}>
+                size="small"
+                disabled={passwordInput.length < 1}>
                 Déchiffrer
-                <LockOpenIcon className={props.classes.iconLeft} />
+                <LockOpenIcon className={classes.iconLeft} />
               </Button>
             </DialogActions>
           </form>

@@ -17,7 +17,7 @@
  */
 
 import React from "react";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography/Typography";
 import FileCopyIcon from "@material-ui/icons/FileCopyOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid/Grid";
