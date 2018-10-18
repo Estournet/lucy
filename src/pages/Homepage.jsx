@@ -95,7 +95,8 @@ const styles = theme => ({
     backgroundColor: "rgba(255, 255, 255, 0.85); ",
     borderRadius: 5,
     padding: theme.spacing.unit * 2,
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing.unit * 2,
+    width: "100vw"
   }
 });
 
