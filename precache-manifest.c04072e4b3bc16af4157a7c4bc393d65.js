@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/lucy/static/js/0.d90a8e21.chunk.js"
   },
   {
-    "revision": "2f39b8d75d3e12c885fe",
-    "url": "/lucy/static/js/main.2f39b8d7.chunk.js"
+    "revision": "b4df220864997b049766",
+    "url": "/lucy/static/js/main.b4df2208.chunk.js"
   },
   {
     "revision": "fc5dfac2c251396d9012",
@@ -56,11 +56,11 @@ self.__precacheManifest = [
     "url": "/lucy/static/media/Lagoon.0ba7b619.enc"
   },
   {
-    "revision": "2f39b8d75d3e12c885fe",
+    "revision": "b4df220864997b049766",
     "url": "/lucy/static/css/main.775569f0.chunk.css"
   },
   {
-    "revision": "01d626912319e8fdf219a19776a8462b",
+    "revision": "cd5e39c81bd0ab849d3e744b1d18f5f2",
     "url": "/lucy/index.html"
   }
 ];
