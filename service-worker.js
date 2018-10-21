@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
 importScripts(
-  "/lucy/precache-manifest.c04072e4b3bc16af4157a7c4bc393d65.js"
+  "/lucy/precache-manifest.8f15e5075ef1426f37aa2392fb453529.js"
 );
 
 workbox.clientsClaim();
