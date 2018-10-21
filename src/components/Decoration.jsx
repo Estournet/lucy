@@ -29,6 +29,7 @@ import ErrorCatcher from "./ErrorCatcher";
 import Grid from "@material-ui/core/Grid/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 
+//TODO Splitter en plusieurs components et utiliser React Router pour les inclure
 const Decoration = props => (
   <div className={props.classes.root}>
     <Grid container>

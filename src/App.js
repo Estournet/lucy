@@ -25,7 +25,7 @@ import Decoration from "./components/Decoration";
 import Homepage from "./pages/Homepage";
 
 const App = () => (
-  <BrowserRouter basename={process.env.NODE_ENV === "production" ? "lucy" : ""}>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
