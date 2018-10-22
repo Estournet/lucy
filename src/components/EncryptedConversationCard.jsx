@@ -38,12 +38,14 @@ import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import Button from "@material-ui/core/Button/Button";
 import Parser from "../utils/Parser";
 import { Redirect } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 class EncryptedConversationCard extends React.PureComponent {
   state = {
     showPasswordField: false,
     passwordInput: "",
-    wrongPassword: false
+    wrongPassword: false,
+    isDecrypting: false
   };
 
   /**
@@ -52,6 +54,7 @@ class EncryptedConversationCard extends React.PureComponent {
   decrypt = event => {
     event.preventDefault();
     const jsonFile = require(`../input/${this.props.fileName}`);
+    this.setState({ isDecrypting: true });
     fetch(jsonFile)
       .then(res => res.blob())
       .then(blob => {
@@ -73,11 +76,12 @@ class EncryptedConversationCard extends React.PureComponent {
                 wrongPassword: false,
                 redirect: true,
                 conversationData,
-                conversationName: conversationData.conversationName
+                conversationName: conversationData.conversationName,
+                isDecrypting: false
               });
             }
           } catch (e) {
-            this.setState({ wrongPassword: true });
+            this.setState({ wrongPassword: true, isDecrypting: false });
           }
         });
       });
@@ -94,7 +98,8 @@ class EncryptedConversationCard extends React.PureComponent {
       showPasswordField,
       passwordInput,
       wrongPassword,
-      conversationData
+      conversationData,
+      isDecrypting
     } = this.state;
     const { classes, conversationID, displayName, subtitle } = this.props;
 
@@ -169,7 +174,15 @@ class EncryptedConversationCard extends React.PureComponent {
                 size="small"
                 disabled={passwordInput.length < 1}>
                 Déchiffrer
-                <LockOpenIcon className={classes.iconLeft} />
+                {isDecrypting ? (
+                  <CircularProgress
+                    className={classes.iconLeft}
+                    color="inherit"
+                    size={24}
+                  />
+                ) : (
+                  <LockOpenIcon className={classes.iconLeft} />
+                )}
               </Button>
             </DialogActions>
           </form>

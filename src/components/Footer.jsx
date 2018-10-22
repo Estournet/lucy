@@ -59,6 +59,15 @@ class Footer extends React.PureComponent {
           to={"/howto"}>
           Comment utiliser le site ?
         </Typography>
+        <Typography
+          className={classes.link}
+          variant="caption"
+          color="textSecondary"
+          align="center"
+          component={Link}
+          to={"/scarlettjohansson"}>
+          SJ
+        </Typography>
       </footer>
     );
   }
@@ -66,8 +75,7 @@ class Footer extends React.PureComponent {
 
 const styles = theme => ({
   footer: {
-    padding: "20px 10%", // Top & Bottom : 20px, Left & Right : 10%
-    color: "blue"
+    padding: "20px 10%" // Top & Bottom : 20px, Left & Right : 10%
   },
   divider: {
     margin: theme.spacing.unit

@@ -19,13 +19,13 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import theme from "./theme";
 import Decoration from "./components/Decoration";
 import Homepage from "./pages/Homepage";
 
 const App = () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <HashRouter basename={process.env.PUBLIC_URL}>
     <>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
@@ -35,7 +35,7 @@ const App = () => (
         </Switch>
       </MuiThemeProvider>
     </>
-  </BrowserRouter>
+  </HashRouter>
 );
 
 export default App;

@@ -22,14 +22,17 @@ import Typography from "@material-ui/core/Typography/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Parser from "../utils/Parser";
 import { Redirect } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 class UploadConversation extends React.PureComponent {
   state = {
     redirect: false,
-    json: undefined
+    json: undefined,
+    isDecrypting: false
   };
   handleUploadChange = e => {
     e.preventDefault();
+    this.setState({ isDecrypting: true });
     const reader = new FileReader();
     const uploadedFile = e.target.files[0];
     if (
@@ -44,16 +47,23 @@ class UploadConversation extends React.PureComponent {
         this.setState({
           conversationData,
           conversationID: conversationData.conversationID,
-          redirect: true
+          redirect: true,
+          isDecrypting: false
         });
       };
       reader.readAsText(uploadedFile);
     }
+    this.setState({ isDecrypting: false });
   };
 
   render() {
     const { classes } = this.props;
-    const { redirect, conversationData, conversationID } = this.state;
+    const {
+      redirect,
+      conversationData,
+      conversationID,
+      isDecrypting
+    } = this.state;
 
     if (redirect) {
       return (
@@ -83,6 +93,13 @@ class UploadConversation extends React.PureComponent {
             fullWidth
             component="span">
             Uploader un fichier
+            {isDecrypting && (
+              <CircularProgress
+                className={classes.iconLeft}
+                color="inherit"
+                size={24}
+              />
+            )}
           </Button>
         </label>
         <Typography
@@ -103,6 +120,9 @@ const styles = theme => ({
   },
   marginTop: {
     marginTop: theme.spacing.unit
+  },
+  iconLeft: {
+    marginLeft: theme.spacing.unit
   }
 });
 
