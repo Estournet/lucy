@@ -25,7 +25,7 @@ import Decoration from "./components/Decoration";
 import Homepage from "./pages/Homepage";
 
 const App = () => (
-  <HashRouter basename={process.env.PUBLIC_URL}>
+  <HashRouter>
     <>
       <CssBaseline />
       <MuiThemeProvider theme={theme}>
