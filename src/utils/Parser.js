@@ -157,7 +157,10 @@ class Parser {
     Parser.checkErrors(json);
     const conversationData = {};
     conversationData.conversationName = convertUnicode(json.title);
-    conversationData.conversationID = convertUnicode(json.thread_path);
+    // We remove everything before the last "/" in the thread_path
+    conversationData.conversationID = convertUnicode(
+      json.thread_path.substring(json.thread_path.lastIndexOf("/") + 1)
+    );
     conversationData.firstMessageDate = formatFullDate(
       new Date(json.messages[json.messages.length - 1].timestamp_ms)
     );
